@@ -1,4 +1,4 @@
-# 🌿 EcoTrail – Tourism Development & Eco-Sustainability Platform
+🌿 EcoTrail – Tourism Development & Eco-Sustainability Platform
 
 ## 📌 About the Project
 EcoTrail is a web-based tourism platform designed to help visitors discover local destinations and plan eco-friendly trips. It promotes responsible tourism by providing destination information, trip planning tools, saved places, and community features.

@@ -1,0 +1,2364 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10251b">
+<title>Trip Planner | EcoTrail</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root {
+  --forest: #10251b;
+  --forest2: #193729;
+  --forest3: #254a36;
+  --lime: #c7e86c;
+  --cream: #f7f5eb;
+  --muted: #a5b4a8;
+  --border: rgba(255,255,255,.12);
+  --glass: rgba(255,255,255,.055);
+  --danger: #ffaaaa;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--forest);
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+
+.container {
+  width: min(1200px, 92%);
+  margin: auto;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Manrope', sans-serif;
+  line-height: 1.2;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 19px;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: .3s ease;
+}
+
+.btn-primary {
+  background: var(--lime);
+  color: var(--forest);
+}
+
+.btn-primary:hover {
+  background: #dff79c;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(199,232,108,.16);
+}
+
+.btn-outline {
+  background: rgba(255,255,255,.04);
+  border-color: var(--border);
+  color: var(--cream);
+}
+
+.btn-outline:hover {
+  border-color: var(--lime);
+  color: var(--lime);
+  transform: translateY(-2px);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 13px;
+  color: var(--lime);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* NAVIGATION */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(16,37,27,.95);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: var(--lime);
+  color: var(--forest);
+  border-radius: 12px;
+  transform: rotate(-5deg);
+  transition: transform .3s;
+}
+
+.logo:hover .logo-icon { transform: rotate(8deg) scale(1.08); }
+.logo-name span { color: var(--lime); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-links a {
+  color: #c1cec3;
+  font-size: 12px;
+  transition: color .25s;
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--lime); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--lime);
+  color: var(--forest);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.user-name { font-size: 11px; }
+
+.menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--cream);
+}
+
+/* HERO */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 76px 0 92px;
+  background:
+    linear-gradient(90deg, rgba(8,24,15,.95), rgba(8,24,15,.64)),
+    url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2000&q=85") center/cover;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 330px;
+  height: 330px;
+  top: -95px;
+  right: 7%;
+  border: 1px solid rgba(199,232,108,.2);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 45px rgba(199,232,108,.025),
+    0 0 0 90px rgba(199,232,108,.02);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  animation: rise .7s ease both;
+}
+
+.hero h1 {
+  font-size: clamp(42px,6vw,70px);
+  letter-spacing: -3px;
+}
+
+.hero h1 span { color: var(--lime); }
+
+.hero p {
+  max-width: 620px;
+  margin: 20px 0 26px;
+  color: #cbd8cd;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: 30px;
+}
+
+.hero-features span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #d0dbd1;
+}
+
+.hero-features i { color: var(--lime); }
+
+/* PAGE LAYOUT */
+
+.main-section { padding: 58px 0 85px; }
+
+.planner-layout {
+  display: grid;
+  grid-template-columns: minmax(0,1.5fr) minmax(280px,.8fr);
+  align-items: start;
+  gap: 25px;
+}
+
+.section-heading { margin-bottom: 25px; }
+
+.section-heading h2 {
+  font-size: clamp(27px,4vw,37px);
+  letter-spacing: -1.3px;
+}
+
+.section-heading p {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* FORM CARD */
+
+.panel {
+  padding: 25px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: var(--glass);
+  transition: border-color .3s, box-shadow .3s;
+}
+
+.panel:hover {
+  border-color: rgba(199,232,108,.24);
+  box-shadow: 0 14px 35px rgba(0,0,0,.13);
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.panel-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 14px;
+  background: rgba(199,232,108,.11);
+  color: var(--lime);
+  font-size: 17px;
+}
+
+.panel-title h3 { font-size: 17px; }
+
+.panel-title p {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.form-group.full { grid-column: 1 / -1; }
+
+.form-group label {
+  color: #d5dfd6;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.form-group label span {
+  color: var(--lime);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 13px 14px;
+  outline: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(0,0,0,.13);
+  color: var(--cream);
+  font-size: 12px;
+  transition: border-color .25s, box-shadow .25s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: rgba(199,232,108,.7);
+  box-shadow: 0 0 0 3px rgba(199,232,108,.07);
+}
+
+.form-group select option { background: var(--forest); }
+.form-group textarea { min-height: 90px; resize: vertical; }
+
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: #819184; }
+
+.form-hint {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+/* TRIP SUMMARY */
+
+.summary-card {
+  position: sticky;
+  top: 96px;
+  overflow: hidden;
+  border: 1px solid rgba(199,232,108,.23);
+  border-radius: 22px;
+  background: linear-gradient(145deg,#1d4030,#122a1e);
+}
+
+.summary-banner {
+  min-height: 160px;
+  padding: 23px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  background:
+    linear-gradient(0deg,rgba(8,24,15,.9),rgba(8,24,15,.12)),
+    url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=80") center/cover;
+}
+
+.summary-banner span {
+  color: var(--lime);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.summary-banner h3 {
+  margin-top: 9px;
+  font-size: 24px;
+}
+
+.summary-body { padding: 22px; }
+
+.summary-destination {
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 20px;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.summary-stat {
+  padding: 15px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.045);
+  border: 1px solid var(--border);
+}
+
+.summary-stat i {
+  display: block;
+  color: var(--lime);
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.summary-stat strong {
+  display: block;
+  font-family: 'Manrope',sans-serif;
+  font-size: 22px;
+  overflow-wrap: anywhere;
+}
+
+.summary-stat span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+.budget-box {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 15px;
+  background: rgba(199,232,108,.08);
+  border: 1px solid rgba(199,232,108,.18);
+}
+
+.budget-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.budget-top span {
+  color: #d5e0d6;
+  font-size: 11px;
+}
+
+.budget-top strong {
+  color: var(--lime);
+  font-size: 16px;
+}
+
+.budget-box p {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.summary-note {
+  margin-top: 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #b9c8bc;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.summary-note i { color: var(--lime); margin-top: 2px; }
+
+/* ITINERARY */
+
+.itinerary-section { margin-top: 27px; }
+
+.itinerary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.day-card {
+  display: grid;
+  grid-template-columns: 62px minmax(0,1fr);
+  gap: 14px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  background: var(--glass);
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+
+.day-card:hover {
+  transform: translateX(4px);
+  border-color: rgba(199,232,108,.27);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+}
+
+.day-number {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: rgba(199,232,108,.1);
+  color: var(--lime);
+  font-family: 'Manrope',sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.day-content h4 { font-size: 14px; }
+
+.day-content p {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.day-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 11px;
+}
+
+.day-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #d4dfd5;
+  font-size: 10px;
+}
+
+.day-meta i { color: var(--lime); }
+
+/* SAVED TRIPS */
+
+.saved-section { margin-top: 65px; }
+
+.saved-list {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 18px;
+}
+
+.saved-trip {
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+
+.saved-trip:hover {
+  transform: translateY(-5px);
+  border-color: rgba(199,232,108,.3);
+  box-shadow: 0 15px 32px rgba(0,0,0,.15);
+}
+
+.saved-trip .trip-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.saved-trip .trip-top i { color: var(--lime); }
+
+.saved-trip h4 { font-size: 16px; }
+
+.saved-trip p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.saved-trip .trip-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 17px;
+}
+
+.saved-trip .trip-buttons button {
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  background: transparent;
+  color: var(--cream);
+  font-size: 10px;
+  transition: .25s;
+}
+
+.saved-trip .trip-buttons button:hover {
+  color: var(--lime);
+  border-color: var(--lime);
+}
+
+.saved-trip .trip-buttons .delete-trip:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.empty-saved {
+  padding: 25px;
+  border: 1px dashed var(--border);
+  border-radius: 17px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.empty-saved i { color: var(--lime); margin-right: 8px; }
+
+/* FOOTER */
+
+footer {
+  padding: 25px 0;
+  border-top: 1px solid var(--border);
+  background: #0b1c13;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.footer-inner p {
+  color: #91a194;
+  font-size: 10px;
+}
+
+.footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+
+.footer-links a {
+  color: #a5b4a8;
+  font-size: 11px;
+  transition: color .25s;
+}
+
+.footer-links a:hover { color: var(--lime); }
+
+/* TOAST */
+
+.toast {
+  position: fixed;
+  z-index: 500;
+  right: 22px;
+  bottom: 22px;
+  max-width: calc(100% - 44px);
+  padding: 14px 19px;
+  border-radius: 14px;
+  background: var(--lime);
+  color: var(--forest);
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 15px 35px rgba(0,0,0,.25);
+  opacity: 0;
+  transform: translateY(15px);
+  pointer-events: none;
+  transition: .3s;
+}
+
+.toast.show { opacity: 1; transform: translateY(0); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+  .planner-layout { grid-template-columns: minmax(0,1.2fr) minmax(260px,.8fr); }
+  .nav-links { gap: 13px; }
+  .nav-links a { font-size: 11px; }
+  .saved-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media (max-width: 800px) {
+  .menu-toggle { display: grid; place-items: center; }
+  .nav { flex-wrap: wrap; }
+
+  .nav-links {
+    display: none;
+    order: 3;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-bottom: 14px;
+  }
+
+  .nav-links.open { display: flex; }
+
+  .nav-links a {
+    padding: 13px 4px;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+
+  .planner-layout { grid-template-columns: 1fr; }
+  .summary-card { position: static; }
+}
+
+@media (max-width: 540px) {
+  .container { width: 91%; }
+  .logo { font-size: 20px; }
+  .user-name { display: none; }
+  .hero { padding: 58px 0 72px; }
+  .hero h1 { font-size: 44px; letter-spacing: -2px; }
+  .hero p { font-size: 12px; }
+  .hero-buttons { flex-direction: column; align-items: stretch; }
+  .hero-features { gap: 13px; }
+  .main-section { padding-top: 42px; }
+  .panel { padding: 17px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: auto; }
+  .form-actions { flex-direction: column; }
+  .form-actions .btn { width: 100%; }
+  .day-card { grid-template-columns: 45px minmax(0,1fr); gap: 10px; padding: 13px; }
+  .day-number { width: 42px; height: 45px; font-size: 13px; }
+  .saved-list { grid-template-columns: 1fr; }
+  .footer-inner { align-items: flex-start; flex-direction: column; }
+}
+
+/* ===== ECOTRAIL CONSISTENT NAVIGATION ===== */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(16, 37, 27, .96);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: var(--lime);
+  color: var(--forest);
+  border-radius: 12px;
+  transform: rotate(-5deg);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.logo:hover .logo-icon {
+  transform: rotate(8deg) scale(1.08);
+  box-shadow: 0 8px 22px rgba(199, 232, 108, .2);
+}
+
+.logo-name span {
+  color: var(--lime);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-links > a {
+  position: relative;
+  padding: 10px 0;
+  color: #c1cec3;
+  font-size: 12px;
+  font-weight: 600;
+  transition: color .25s;
+}
+
+.nav-links > a::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 5px;
+  background: var(--lime);
+  transition: width .3s;
+}
+
+.nav-links > a:hover,
+.nav-links > a.active {
+  color: var(--lime);
+}
+
+.nav-links > a:hover::after,
+.nav-links > a.active::after {
+  width: 100%;
+}
+
+/* More dropdown */
+
+.more-menu {
+  position: relative;
+}
+
+.more-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  color: #c1cec3;
+  font-size: 12px;
+  font-weight: 600;
+  transition: color .25s;
+}
+
+.more-toggle:hover,
+.more-toggle.active {
+  color: var(--lime);
+}
+
+.more-toggle .fa-chevron-down {
+  font-size: 9px;
+  transition: transform .25s;
+}
+
+.more-menu.open .more-toggle .fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 15px);
+  right: -18px;
+  width: 220px;
+  padding: 9px;
+  border: 1px solid rgba(199, 232, 108, .2);
+  border-radius: 16px;
+  background: #142d20;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, .35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity .25s, transform .25s, visibility .25s;
+}
+
+.more-menu.open .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  color: #c1cec3;
+  font-size: 12px;
+  transition: background .25s, color .25s, transform .25s;
+}
+
+.dropdown-menu a i {
+  width: 17px;
+  color: var(--lime);
+  text-align: center;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu a.active {
+  color: var(--lime);
+  background: rgba(199, 232, 108, .1);
+  transform: translateX(3px);
+}
+
+/* Profile and logout */
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 9px 5px 5px;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  transition: background .25s, border-color .25s;
+}
+
+.user-profile-link:hover {
+  background: rgba(255, 255, 255, .05);
+  border-color: var(--border);
+}
+
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--lime);
+  color: var(--forest);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.user-name {
+  color: var(--cream);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--cream);
+  transition: border-color .25s, color .25s;
+}
+
+.menu-toggle:hover {
+  border-color: var(--lime);
+  color: var(--lime);
+}
+
+/* Responsive navigation */
+
+@media (max-width: 1000px) {
+  .nav {
+    gap: 13px;
+  }
+
+  .nav-links {
+    gap: 15px;
+  }
+
+  .nav-links > a,
+  .more-toggle {
+    font-size: 11px;
+  }
+
+  .user-name {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .menu-toggle {
+    display: grid;
+    place-items: center;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    display: none;
+    order: 3;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 0 15px;
+  }
+
+  .nav-links.open {
+    display: flex;
+    animation: rise .3s ease both;
+  }
+
+  .nav-links > a {
+    padding: 14px 5px;
+    border-top: 1px solid rgba(255, 255, 255, .07);
+  }
+
+  .nav-links > a::after {
+    display: none;
+  }
+
+  .more-menu {
+    border-top: 1px solid rgba(255, 255, 255, .07);
+  }
+
+  .more-toggle {
+    width: 100%;
+    justify-content: space-between;
+    padding: 14px 5px;
+    font-size: 12px;
+  }
+
+  .dropdown-menu {
+    position: static;
+    display: none;
+    width: 100%;
+    padding: 4px 0 8px 10px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .more-menu.open .dropdown-menu {
+    display: block;
+    animation: rise .25s ease both;
+  }
+
+  .dropdown-menu a {
+    padding: 12px;
+  }
+
+  .nav-right {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 540px) {
+  .logo {
+    font-size: 20px;
+  }
+
+  .nav-right {
+    gap: 7px;
+  }
+
+  .nav-right .btn {
+    padding: 10px 12px;
+    font-size: 10px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="container nav">
+
+    <a href="index.html" class="logo">
+      <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+      <span class="logo-name">Eco<span>Trail</span></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="destinations.html">Destinations</a>
+    <a href="tripplanner.html">Trip Planner</a>
+    <a href="mapbooking.html">Booking by Map</a>
+    <a href="savedplaces.html">Saved Places</a>
+    <a href="community.html" class="active">Community</a>
+</nav>
+
+    <div class="nav-right">
+      <a href="profile.html"
+   style="display:inline-flex; align-items:center; gap:9px;
+          padding:7px 13px; border-radius:14px;
+          color:#dce8dd; text-decoration:none;
+          font-size:13px; font-weight:600;
+          background:linear-gradient(135deg,#10251b,#193729);
+          border:1px solid rgba(199,232,108,.25);
+          box-shadow:0 4px 14px rgba(0,0,0,.18);
+          transition:all .3s ease;"
+   onmouseover="this.style.color='#c7e86c';
+                this.style.borderColor='#c7e86c';
+                this.style.boxShadow='0 0 20px rgba(199,232,108,.3)';
+                this.style.transform='translateY(-2px)'"
+   onmouseout="this.style.color='#dce8dd';
+               this.style.borderColor='rgba(199,232,108,.25)';
+               this.style.boxShadow='0 4px 14px rgba(0,0,0,.18)';
+               this.style.transform='translateY(0)'">
+
+    <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9sm8nvbA01HIwVEr2TPCOWArJkkp6Qr8d0Rxyr1Xdrx0YkVar2c2LHt4&s=10"
+        alt="Animated nature leaves"
+        style="width:34px; height:34px;
+               object-fit:cover; border-radius:50%;
+               border:1px solid rgba(199,232,108,.5);">
+
+    <span>My Profile</span>
+</a>
+      <button class="menu-toggle" id="menuToggle" type="button"
+        aria-label="Toggle navigation" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="eyebrow">
+        <i class="fa-solid fa-route"></i>
+        PLAN SMARTER. TRAVEL GREENER.
+      </div>
+
+      <h1>Your next journey,<br><span>beautifully planned.</span></h1>
+
+      <p>
+        Create your own travel itinerary, estimate your budget and organise
+        each day of your adventure. Make room for nature, local experiences
+        and responsible travel.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#plannerForm" class="btn btn-primary">
+          <i class="fa-solid fa-plus"></i> Plan a trip
+        </a>
+        <a href="#savedTrips" class="btn btn-outline">
+          <i class="fa-solid fa-bookmark"></i> My saved trips
+        </a>
+      </div>
+
+      <div class="hero-features">
+        <span><i class="fa-solid fa-calendar-check"></i> Flexible itinerary</span>
+        <span><i class="fa-solid fa-wallet"></i> Budget estimates</span>
+        <span><i class="fa-solid fa-leaf"></i> Mindful travel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="main-section">
+  <div class="container">
+
+    <div class="section-heading">
+      <div class="eyebrow">Your travel workspace</div>
+      <h2>Build your itinerary.</h2>
+      <p>Choose a destination, set your dates and create a personalised trip plan.</p>
+    </div>
+
+    <div class="planner-layout">
+
+      <!-- TRIP FORM -->
+      <section class="panel" id="plannerForm">
+        <div class="panel-title">
+          <span class="panel-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+          <div>
+            <h3>Trip details</h3>
+            <p>Start with the basics of your journey.</p>
+          </div>
+        </div>
+
+        <form id="tripForm">
+          <div class="form-grid">
+
+            <div class="form-group full">
+              <label for="tripName">Trip name <span>*</span></label>
+              <input id="tripName" name="tripName" type="text"
+                placeholder="e.g. My Western Ghats Escape"
+                maxlength="80" required>
+            </div>
+
+            <div class="form-group full">
+              <label for="destination">Destination <span>*</span></label>
+              <select id="destination" name="destination" required>
+                <option value="">Choose a destination</option>
+                <optgroup label="India">
+                  <option>Coorg, Karnataka</option>
+                  <option>Munnar, Kerala</option>
+                  <option>Ladakh</option>
+                  <option>Kashmir</option>
+                  <option>Goa</option>
+                  <option>Jaipur, Rajasthan</option>
+                  <option>Varanasi, Uttar Pradesh</option>
+                  <option>Rishikesh, Uttarakhand</option>
+                  <option>Darjeeling, West Bengal</option>
+                  <option>Andaman Islands</option>
+                  <option>Ooty, Tamil Nadu</option>
+                  <option>Meghalaya</option>
+                  <option>Kaziranga, Assam</option>
+                  <option>Jaisalmer, Rajasthan</option>
+                  <option>Rann of Kutch, Gujarat</option>
+                  <option>Hampi, Karnataka</option>
+                  <option>Spiti Valley, Himachal Pradesh</option>
+                  <option>Alleppey, Kerala</option>
+                  <option>Gir National Park, Gujarat</option>
+                  <option>Puducherry</option>
+                </optgroup>
+                <optgroup label="Worldwide">
+                  <option>Bali, Indonesia</option>
+                  <option>Swiss Alps, Switzerland</option>
+                  <option>Kyoto, Japan</option>
+                  <option>Iceland</option>
+                  <option>Patagonia, Argentina and Chile</option>
+                  <option>New Zealand</option>
+                  <option>Costa Rica</option>
+                  <option>Norwegian Fjords, Norway</option>
+                  <option>Machu Picchu, Peru</option>
+                  <option>Maasai Mara, Kenya</option>
+                  <option>Maldives</option>
+                  <option>Banff National Park, Canada</option>
+                  <option>Amazon Rainforest, South America</option>
+                  <option>Dolomites, Italy</option>
+                  <option>Queenstown, New Zealand</option>
+                </optgroup>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="startDate">Start date <span>*</span></label>
+              <input id="startDate" name="startDate" type="date" required>
+            </div>
+
+            <div class="form-group">
+              <label for="endDate">End date <span>*</span></label>
+              <input id="endDate" name="endDate" type="date" required>
+            </div>
+
+            <div class="form-group">
+              <label for="travellers">Number of travellers</label>
+              <input id="travellers" name="travellers" type="number"
+                min="1" max="50" value="1" required>
+            </div>
+
+            <div class="form-group">
+              <label for="travelStyle">Travel style</label>
+              <select id="travelStyle" name="travelStyle">
+                <option value="Nature and relaxation">Nature and relaxation</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Culture and heritage">Culture and heritage</option>
+                <option value="Wildlife">Wildlife</option>
+                <option value="Budget travel">Budget travel</option>
+                <option value="Slow travel">Slow travel</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="budget">Total budget (₹)</label>
+              <input id="budget" name="budget" type="number"
+                min="0" step="500" value="10000" required>
+              <span class="form-hint">For international trips, this is still an INR estimate.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="transport">Preferred transport</label>
+              <select id="transport" name="transport">
+                <option value="Public transport">Public transport</option>
+                <option value="Train">Train</option>
+                <option value="Bus">Bus</option>
+                <option value="Car">Car</option>
+                <option value="Flight">Flight</option>
+                <option value="Bicycle and walking">Bicycle and walking</option>
+              </select>
+            </div>
+
+            <div class="form-group full">
+              <label for="interests">Interests and activities</label>
+              <input id="interests" name="interests" type="text"
+                maxlength="250"
+                placeholder="e.g. waterfalls, hiking, local food, photography">
+            </div>
+
+            <div class="form-group full">
+              <label for="notes">Additional notes</label>
+              <textarea id="notes" name="notes" maxlength="1000"
+                placeholder="Any places, activities or special requirements to remember?"></textarea>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              Generate itinerary
+            </button>
+            <button type="button" class="btn btn-outline" id="resetBtn">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- LIVE SUMMARY -->
+      <aside class="summary-card">
+        <div class="summary-banner">
+          <span><i class="fa-solid fa-leaf"></i> Trip preview</span>
+          <h3 id="summaryName">Your next adventure</h3>
+        </div>
+
+        <div class="summary-body">
+          <p class="summary-destination" id="summaryDestination">
+            Choose a destination to get started.
+          </p>
+
+          <div class="summary-stats">
+            <div class="summary-stat">
+              <i class="fa-solid fa-calendar-days"></i>
+              <strong id="summaryDays">0</strong>
+              <span>Days planned</span>
+            </div>
+
+            <div class="summary-stat">
+              <i class="fa-solid fa-users"></i>
+              <strong id="summaryPeople">1</strong>
+              <span>Travellers</span>
+            </div>
+          </div>
+
+          <div class="budget-box">
+            <div class="budget-top">
+              <span>Estimated total budget</span>
+              <strong id="summaryBudget">₹10,000</strong>
+            </div>
+            <p id="perPerson">₹10,000 per traveller</p>
+          </div>
+
+          <div class="summary-note">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Budget figures are your own estimates, not live travel prices or confirmed bookings.</span>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- GENERATED ITINERARY -->
+    <section class="itinerary-section" id="itinerarySection" hidden>
+      <div class="section-heading">
+        <div class="eyebrow"><i class="fa-solid fa-route"></i> Your travel roadmap</div>
+        <h2 id="itineraryTitle">Your itinerary.</h2>
+        <p id="itinerarySubtitle">Your daily plan is ready to review.</p>
+      </div>
+
+      <div class="itinerary-list" id="itineraryList"></div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" id="saveTripBtn" type="button">
+          <i class="fa-solid fa-bookmark"></i> Save trip
+        </button>
+        <button class="btn btn-outline" id="printTripBtn" type="button">
+          <i class="fa-solid fa-print"></i> Print itinerary
+        </button>
+      </div>
+    </section>
+
+    <!-- SAVED TRIPS -->
+    <section class="saved-section" id="savedTrips">
+      <div class="section-heading">
+        <div class="eyebrow"><i class="fa-solid fa-bookmark"></i> Your collection</div>
+        <h2>My saved trips.</h2>
+        <p>Reopen your plans whenever you need them.</p>
+      </div>
+
+      <div class="empty-saved" id="emptySaved">
+        <i class="fa-regular fa-map"></i>
+        No saved trips yet. Create an itinerary and save it here.
+      </div>
+
+      <div class="saved-list" id="savedList"></div>
+    </section>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <p>© <span id="currentYear"></span> EcoTrail. Explore responsibly.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="community.html">Community</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================
+   ECOTRAIL TRIP PLANNER
+   Frontend-only demo using localStorage.
+   ===================================================== */
+
+function getCurrentUser() {
+  try {
+    const user = JSON.parse(
+      sessionStorage.getItem('ecotrailCurrentUser') || 'null'
+    );
+    return user && user.email ? user : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+const currentUser = getCurrentUser();
+
+if (!currentUser) {
+  window.location.replace('login.html');
+}
+
+const currentName = currentUser
+  ? (currentUser.name || 'Explorer')
+  : 'Explorer';
+
+const currentEmail = currentUser
+  ? currentUser.email.trim().toLowerCase()
+  : '';
+
+const TRIPS_KEY = 'ecotrailTrips_' + currentEmail;
+
+document.getElementById('userName').textContent = currentName;
+document.getElementById('userAvatar').textContent =
+  currentName.trim().charAt(0).toUpperCase() || 'E';
+document.getElementById('currentYear').textContent =
+  new Date().getFullYear();
+
+let currentTrip = null;
+let toastTimer;
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2600);
+}
+
+function readJSON(key, fallback) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || 'null');
+    return value === null ? fallback : value;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function writeJSON(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch (error) {
+    showToast('Could not save. Check your browser storage settings.');
+    return false;
+  }
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[character]);
+}
+
+function formatMoney(value) {
+  const number = Math.max(0, Number(value) || 0);
+
+  return '₹' + number.toLocaleString('en-IN', {
+    maximumFractionDigits: 0
+  });
+}
+
+/* DATE HELPERS */
+function parseDate(value) {
+  const parts = String(value).split('-').map(Number);
+
+  if (parts.length !== 3 || parts.some(n => !Number.isFinite(n))) {
+    return null;
+  }
+
+  const date = new Date(parts[0], parts[1] - 1, parts[2]);
+
+  if (
+    date.getFullYear() !== parts[0] ||
+    date.getMonth() !== parts[1] - 1 ||
+    date.getDate() !== parts[2]
+  ) {
+    return null;
+  }
+
+  return date;
+}
+
+function dateDifference(start, end) {
+  const a = parseDate(start);
+  const b = parseDate(end);
+
+  if (!a || !b) return 0;
+
+  return Math.round((b - a) / 86400000) + 1;
+}
+
+function formatDate(value) {
+  const date = parseDate(value);
+
+  if (!date) return value || 'Not set';
+
+  return date.toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+}
+
+/* FORM ELEMENTS */
+const form = document.getElementById('tripForm');
+const startInput = document.getElementById('startDate');
+const endInput = document.getElementById('endDate');
+
+function setDateMinimums() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const todayString = `${year}-${month}-${day}`;
+
+  startInput.min = todayString;
+  endInput.min = startInput.value || todayString;
+}
+
+setDateMinimums();
+
+startInput.addEventListener('change', () => {
+  endInput.min = startInput.value || startInput.min;
+
+  if (endInput.value && endInput.value < startInput.value) {
+    endInput.value = startInput.value;
+  }
+
+  updateSummary();
+});
+
+endInput.addEventListener('change', updateSummary);
+
+form.querySelectorAll('input, select, textarea').forEach(field => {
+  field.addEventListener('input', updateSummary);
+  field.addEventListener('change', updateSummary);
+});
+
+/* LIVE SUMMARY */
+function updateSummary() {
+  const name = document.getElementById('tripName').value.trim();
+  const destination = document.getElementById('destination').value;
+  const travellers = Math.max(
+    1,
+    Number(document.getElementById('travellers').value) || 1
+  );
+  const budget = Math.max(
+    0,
+    Number(document.getElementById('budget').value) || 0
+  );
+
+  const days = dateDifference(startInput.value, endInput.value);
+
+  document.getElementById('summaryName').textContent =
+    name || 'Your next adventure';
+
+  document.getElementById('summaryDestination').textContent =
+    destination || 'Choose a destination to get started.';
+
+  document.getElementById('summaryDays').textContent =
+    days > 0 ? days : '—';
+
+  document.getElementById('summaryPeople').textContent = travellers;
+  document.getElementById('summaryBudget').textContent = formatMoney(budget);
+  document.getElementById('perPerson').textContent =
+    formatMoney(budget / travellers) + ' per traveller';
+}
+
+/* ITINERARY ACTIVITIES */
+function getActivityPlan(style, interests, transport) {
+  const custom = interests
+    ? 'Focus on: ' + interests + '.'
+    : '';
+
+  const plans = {
+    'Nature and relaxation': [
+      ['Arrive and unwind', 'Settle in, explore the nearby area and enjoy a relaxed evening outdoors.', 'Easy pace'],
+      ['Nature exploration', 'Visit a scenic viewpoint, garden, lake or marked nature trail.', 'Outdoor'],
+      ['Local discoveries', 'Explore a local market, try regional food and learn about the area.', 'Culture'],
+      ['Slow morning', 'Enjoy a peaceful walk, photograph the surroundings and avoid rushing.', 'Relaxation'],
+      ['Final exploration', 'Visit one favourite spot again and prepare for departure.', 'Flexible']
+    ],
+    'Adventure': [
+      ['Arrive and prepare', 'Check local conditions, organise equipment and review safety guidance.', 'Preparation'],
+      ['Outdoor adventure', 'Choose a suitable hike, cycling route or guided outdoor activity.', 'Active'],
+      ['Explore the landscape', 'Visit scenic trails and viewpoints appropriate to your experience.', 'Outdoor'],
+      ['Local experience', 'Recover, enjoy local food and learn about the region.', 'Recovery'],
+      ['Final adventure', 'Choose a shorter activity and prepare for departure.', 'Flexible']
+    ],
+    'Culture and heritage': [
+      ['Arrive and orient yourself', 'Explore nearby streets and learn about local customs.', 'Easy pace'],
+      ['Heritage discovery', 'Visit historic buildings, museums or recognised cultural sites.', 'Culture'],
+      ['Local traditions', 'Try regional food and explore local craft markets respectfully.', 'Food and culture'],
+      ['Neighbourhood exploration', 'Learn about community history and consider a locally led tour.', 'Culture'],
+      ['Final visit', 'Revisit a favourite area and prepare for departure.', 'Flexible']
+    ],
+    'Wildlife': [
+      ['Arrive and learn', 'Review park rules, local guidance and wildlife viewing distances.', 'Preparation'],
+      ['Guided wildlife experience', 'Choose an authorised guided visit or conservation activity.', 'Wildlife'],
+      ['Habitat discovery', 'Learn about local habitats and how visitors can reduce their impact.', 'Education'],
+      ['Nature photography', 'Observe from a distance without feeding or disturbing animals.', 'Photography'],
+      ['Wrap up', 'Review your experiences and prepare for departure.', 'Flexible']
+    ],
+    'Budget travel': [
+      ['Arrive economically', 'Settle in and identify public transport and affordable food options.', 'Budget'],
+      ['Explore locally', 'Visit free or low-cost public spaces and walking routes.', 'Walking'],
+      ['Community discoveries', 'Explore local markets and choose locally owned services.', 'Local'],
+      ['Flexible exploration', 'Revisit a favourite place while tracking your spending.', 'Budget'],
+      ['Departure preparation', 'Check transport times and review your remaining budget.', 'Planning']
+    ],
+    'Slow travel': [
+      ['Arrive without rushing', 'Settle in, walk around the neighbourhood and take a relaxed evening.', 'Slow pace'],
+      ['Discover one area', 'Spend the day exploring one neighbourhood or landscape in depth.', 'Immersive'],
+      ['Connect locally', 'Learn about local traditions and support nearby businesses.', 'Community'],
+      ['Enjoy nature', 'Choose an easy walk, quiet viewpoint or outdoor rest day.', 'Nature'],
+      ['Reflect and depart', 'Revisit a favourite spot and leave the place as you found it.', 'Flexible']
+    ]
+  };
+
+  const selected = plans[style] || plans['Nature and relaxation'];
+
+  return selected.map((item, index) => ({
+    title: item[0],
+    description: item[1] + (custom ? ' ' + custom : ''),
+    tag: item[2],
+    transport: transport,
+    day: index + 1
+  }));
+}
+
+/* GENERATE ITINERARY */
+form.addEventListener('submit', event => {
+  event.preventDefault();
+
+  const tripName = document.getElementById('tripName').value.trim();
+  const destination = document.getElementById('destination').value;
+  const startDate = startInput.value;
+  const endDate = endInput.value;
+  const travellers = Number(document.getElementById('travellers').value);
+  const budget = Number(document.getElementById('budget').value);
+  const style = document.getElementById('travelStyle').value;
+  const transport = document.getElementById('transport').value;
+  const interests = document.getElementById('interests').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+
+  if (!tripName || !destination || !startDate || !endDate) {
+    showToast('Please complete the required trip details.');
+    return;
+  }
+
+  const days = dateDifference(startDate, endDate);
+
+  if (days < 1) {
+    showToast('End date must be the same as or later than start date.');
+    return;
+  }
+
+  if (days > 60) {
+    showToast('For this demo, plan a trip of up to 60 days.');
+    return;
+  }
+
+  if (!Number.isInteger(travellers) || travellers < 1 || travellers > 50) {
+    showToast('Enter between 1 and 50 travellers.');
+    return;
+  }
+
+  if (!Number.isFinite(budget) || budget < 0) {
+    showToast('Enter a valid budget.');
+    return;
+  }
+
+  currentTrip = {
+    id: 'trip_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    name: tripName,
+    destination,
+    startDate,
+    endDate,
+    days,
+    travellers,
+    budget,
+    style,
+    transport,
+    interests,
+    notes,
+    createdAt: new Date().toISOString(),
+    itinerary: []
+  };
+
+  const template = getActivityPlan(style, interests, transport);
+
+  currentTrip.itinerary = Array.from({ length: days }, (_, index) => {
+    const activity = template[index % template.length];
+
+    return {
+      day: index + 1,
+      date: addDays(startDate, index),
+      title: activity.title,
+      description: activity.description,
+      tag: activity.tag,
+      transport
+    };
+  });
+
+  renderItinerary(currentTrip);
+  showToast('Your itinerary has been generated!');
+  document.getElementById('itinerarySection').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
+function addDays(dateString, amount) {
+  const date = parseDate(dateString);
+
+  if (!date) return dateString;
+
+  date.setDate(date.getDate() + amount);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+/* DISPLAY ITINERARY */
+function renderItinerary(trip) {
+  const section = document.getElementById('itinerarySection');
+  const list = document.getElementById('itineraryList');
+
+  document.getElementById('itineraryTitle').textContent =
+    trip.name + ' itinerary';
+
+  document.getElementById('itinerarySubtitle').textContent =
+    trip.destination + ' · ' +
+    formatDate(trip.startDate) + ' – ' + formatDate(trip.endDate) +
+    ' · ' + trip.days + ' day' + (trip.days === 1 ? '' : 's');
+
+  list.replaceChildren();
+
+  trip.itinerary.forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'day-card';
+
+    card.innerHTML = `
+      <div class="day-number">D${item.day}</div>
+      <div class="day-content">
+        <h4>${escapeHTML(item.title)}</h4>
+        <p>${escapeHTML(item.description)}</p>
+        <div class="day-meta">
+          <span><i class="fa-regular fa-calendar"></i> ${escapeHTML(formatDate(item.date))}</span>
+          <span><i class="fa-solid fa-leaf"></i> ${escapeHTML(item.tag)}</span>
+          <span><i class="fa-solid fa-route"></i> ${escapeHTML(item.transport)}</span>
+        </div>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+
+  section.hidden = false;
+}
+
+/* SAVE CURRENT TRIP */
+document.getElementById('saveTripBtn').addEventListener('click', () => {
+  if (!currentTrip) {
+    showToast('Generate an itinerary first.');
+    return;
+  }
+
+  const trips = readJSON(TRIPS_KEY, []);
+  if (!Array.isArray(trips)) {
+    showToast('Unable to read saved trips.');
+    return;
+  }
+
+  const existingIndex = trips.findIndex(trip => trip.id === currentTrip.id);
+
+  if (existingIndex >= 0) {
+    trips[existingIndex] = currentTrip;
+  } else {
+    trips.unshift(currentTrip);
+  }
+
+  if (writeJSON(TRIPS_KEY, trips)) {
+    renderSavedTrips();
+    showToast('Trip saved successfully!');
+  }
+});
+
+/* SAVED TRIPS */
+function renderSavedTrips() {
+  const trips = readJSON(TRIPS_KEY, []);
+  const safeTrips = Array.isArray(trips) ? trips : [];
+  const list = document.getElementById('savedList');
+
+  list.replaceChildren();
+
+  document.getElementById('emptySaved').style.display =
+    safeTrips.length ? 'none' : 'block';
+
+  safeTrips.forEach(trip => {
+    const card = document.createElement('article');
+    card.className = 'saved-trip';
+
+    card.innerHTML = `
+      <div class="trip-top">
+        <span class="eyebrow"> <i class="fa-solid fa-leaf"></i> EcoTrail plan </span>
+        <i class="fa-solid fa-bookmark"></i>
+      </div>
+
+      <h4>${escapeHTML(trip.name || 'Untitled trip')}</h4>
+
+      <p>
+        <i class="fa-solid fa-location-dot"></i>
+        ${escapeHTML(trip.destination || 'Destination not set')}
+      </p>
+
+      <p>
+        <i class="fa-regular fa-calendar"></i>
+        ${escapeHTML(formatDate(trip.startDate))} – ${escapeHTML(formatDate(trip.endDate))}
+      </p>
+
+      <p>
+        <i class="fa-solid fa-wallet"></i>
+        ${escapeHTML(formatMoney(trip.budget))}
+        · ${Number(trip.days) || 0} days
+      </p>
+
+      <div class="trip-buttons">
+        <button type="button" data-trip-action="load" data-id="${escapeHTML(trip.id)}">
+          <i class="fa-solid fa-folder-open"></i> Open plan
+        </button>
+        <button type="button" class="delete-trip" data-trip-action="delete" data-id="${escapeHTML(trip.id)}">
+          <i class="fa-solid fa-trash"></i> Delete
+        </button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+document.getElementById('savedList').addEventListener('click', event => {
+  const button = event.target.closest('button[data-trip-action]');
+  if (!button) return;
+
+  const id = button.dataset.id;
+  const action = button.dataset.tripAction;
+  const trips = readJSON(TRIPS_KEY, []);
+
+  if (!Array.isArray(trips)) return;
+
+  const trip = trips.find(item => item.id === id);
+  if (!trip) return;
+
+  if (action === 'load') {
+    currentTrip = trip;
+
+    document.getElementById('tripName').value = trip.name || '';
+    document.getElementById('destination').value = trip.destination || '';
+    startInput.value = trip.startDate || '';
+    endInput.value = trip.endDate || '';
+    document.getElementById('travellers').value = trip.travellers || 1;
+    document.getElementById('budget').value = trip.budget || 0;
+    document.getElementById('travelStyle').value =
+      trip.style || 'Nature and relaxation';
+    document.getElementById('transport').value =
+      trip.transport || 'Public transport';
+    document.getElementById('interests').value = trip.interests || '';
+    document.getElementById('notes').value = trip.notes || '';
+
+    endInput.min = startInput.value || endInput.min;
+
+    updateSummary();
+    renderItinerary(trip);
+
+    document.getElementById('plannerForm').scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+
+    showToast('Saved trip loaded.');
+  }
+
+  if (action === 'delete') {
+    if (!window.confirm('Delete this saved trip?')) return;
+
+    const updatedTrips = trips.filter(item => item.id !== id);
+
+    if (writeJSON(TRIPS_KEY, updatedTrips)) {
+      if (currentTrip && currentTrip.id === id) {
+        currentTrip = null;
+      }
+
+      renderSavedTrips();
+      showToast('Saved trip deleted.');
+    }
+  }
+});
+
+/* RESET FORM */
+document.getElementById('resetBtn').addEventListener('click', () => {
+  form.reset();
+  currentTrip = null;
+  document.getElementById('itinerarySection').hidden = true;
+  setDateMinimums();
+  updateSummary();
+  showToast('Planner reset.');
+});
+
+/* PRINT */
+document.getElementById('printTripBtn').addEventListener('click', () => {
+  if (!currentTrip) {
+    showToast('Generate an itinerary first.');
+    return;
+  }
+
+  window.print();
+});
+
+/* MOBILE MENU */
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+
+menuToggle.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+
+  menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.innerHTML = open
+    ? '<i class="fa-solid fa-xmark"></i>'
+    : '<i class="fa-solid fa-bars"></i>';
+});
+
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+  });
+});
+
+/* LOGOUT */
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  try {
+    sessionStorage.removeItem('ecotrailCurrentUser');
+  } catch (error) {
+    // Redirect regardless.
+  }
+
+  window.location.replace('login.html');
+});
+
+/* PRINT STYLES */
+const printStyle = document.createElement('style');
+printStyle.textContent = `
+@media print {
+  body { background: white !important; color: black !important; }
+  .header, .hero, .planner-layout, .saved-section, footer,
+  .form-actions, .toast { display: none !important; }
+  .main-section { padding: 0 !important; }
+  .itinerary-section { display: block !important; }
+  .day-card { break-inside: avoid; background: white !important; border: 1px solid #ccc !important; color: black !important; }
+  .day-content p, .day-meta span, .section-heading p { color: #333 !important; }
+  .day-number { background: #eee !important; color: black !important; }
+}
+`;
+document.head.appendChild(printStyle);
+
+/* INITIALISE */
+updateSummary();
+renderSavedTrips();
+</script>
+
+<footer class="ecotrail-footer">
+  <style>
+    .ecotrail-footer {
+      --footer-bg: #10251b;
+      --footer-surface: #173528;
+      --footer-lime: #c7e86c;
+      --footer-cream: #f4f3e8;
+      --footer-muted: #b8c8bd;
+
+      background: linear-gradient(
+        135deg,
+        #0b1c14 0%,
+        #10251b 55%,
+        #163526 100%
+      );
+      color: var(--footer-cream);
+      padding: 55px 7% 22px;
+      margin-top: 70px;
+      border-top: 1px solid rgba(199, 232, 108, 0.25);
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      box-sizing: border-box;
+    }
+
+    .ecotrail-footer *,
+    .ecotrail-footer *::before,
+    .ecotrail-footer *::after {
+      box-sizing: border-box;
+    }
+
+    .ecotrail-footer::before {
+      content: "";
+      position: absolute;
+      top: -130px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
+      background: rgba(199, 232, 108, 0.08);
+      filter: blur(75px);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .ecotrail-footer::after {
+      content: "";
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 280px;
+      height: 280px;
+      background: rgba(64, 128, 83, 0.12);
+      filter: blur(75px);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .ecotrail-footer .footer-container {
+      max-width: 1250px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .ecotrail-footer .footer-main {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+    }
+
+    .ecotrail-footer .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--footer-cream);
+      text-decoration: none;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      transition: transform 0.3s ease;
+    }
+
+    .ecotrail-footer .footer-logo:hover {
+      transform: translateY(-3px);
+    }
+
+    .ecotrail-footer .footer-logo-icon {
+      font-size: 29px;
+    }
+
+    .ecotrail-footer .footer-logo-name span {
+      color: var(--footer-lime);
+    }
+
+    .ecotrail-footer .footer-brand > p {
+      max-width: 330px;
+      color: var(--footer-muted);
+      line-height: 1.8;
+      font-size: 14px;
+      margin: 18px 0 22px;
+    }
+
+    .ecotrail-footer .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 13px;
+    }
+
+    .ecotrail-footer .footer-links h3 {
+      color: var(--footer-lime);
+      font-size: 15px;
+      margin: 5px 0 9px;
+      font-weight: 750;
+    }
+
+    .ecotrail-footer .footer-links a {
+      color: var(--footer-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .ecotrail-footer .footer-links a:hover {
+      color: var(--footer-lime);
+      transform: translateX(5px);
+    }
+
+    .ecotrail-footer .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(244, 243, 232, 0.13);
+    }
+
+    .ecotrail-footer .footer-bottom p {
+      color: var(--footer-muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .ecotrail-footer .footer-back-top {
+      display: inline-block;
+      color: var(--footer-lime);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .ecotrail-footer .footer-back-top:hover {
+      color: var(--footer-cream);
+      transform: translateY(-3px);
+    }
+
+    .ecotrail-footer a:focus-visible {
+      outline: 2px solid var(--footer-lime);
+      outline-offset: 5px;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .ecotrail-footer .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 35px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .ecotrail-footer {
+        padding: 42px 6% 20px;
+        margin-top: 45px;
+      }
+
+      .ecotrail-footer .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 30px 18px;
+      }
+
+      .ecotrail-footer .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+      .ecotrail-footer .footer-logo {
+        font-size: 24px;
+      }
+
+      .ecotrail-footer .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .ecotrail-footer .footer-links a {
+        font-size: 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ecotrail-footer *,
+      .ecotrail-footer *::before,
+      .ecotrail-footer *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <div class="footer-container">
+    <div class="footer-main">
+
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <span class="footer-logo-icon">🌿</span>
+          <span class="footer-logo-name">Eco<span>Trail</span></span>
+        </a>
+
+        <p>
+          Explore the world responsibly. Discover beautiful destinations,
+          plan meaningful journeys, and leave a lighter footprint.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h3>Explore</h3>
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="tripplanner.html">Trip Planner</a>
+        <a href="mapbooking.html">Map &amp; Booking</a>
+      </div>
+
+      <div class="footer-links">
+        <h3>Your EcoTrail</h3>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="savedplaces.html">Saved Places</a>
+        <a href="community.html">Community</a>
+        <a href="profile.html">My Profile</a>
+      </div>
+
+      <div class="footer-links">
+        <h3>About Us</h3>
+        <a href="about.html">About EcoTrail</a>
+        <a href="about.html#team">Our Team</a>
+        <a href="about.html#sustainability">Sustainability</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        © <span class="footer-year"></span> EcoTrail.
+        Made for a greener tomorrow.
+      </p>
+
+      <a href="#" class="footer-back-top">Back to top ↑</a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const footer = document.currentScript.closest(".ecotrail-footer");
+      if (!footer) return;
+
+      const year = footer.querySelector(".footer-year");
+      if (year) {
+        year.textContent = new Date().getFullYear();
+      }
+
+      const backToTop = footer.querySelector(".footer-back-top");
+      if (backToTop) {
+        backToTop.addEventListener("click", function (event) {
+          event.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        });
+      }
+    })();
+  </script>
+</footer>
+
+</body>
+</html>

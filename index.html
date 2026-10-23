@@ -1,0 +1,2378 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10251b">
+<meta name="description" content="EcoTrail helps you discover destinations, plan journeys and explore responsibly.">
+<title>EcoTrail — Find Your Wild</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root {
+    --forest: #10251b;
+    --forest2: #193729;
+    --forest3: #254a36;
+    --lime: #c7e86c;
+    --lime-light: #d9f68b;
+    --cream: #f7f5eb;
+    --muted: #a5b4a8;
+    --border: rgba(255,255,255,.13);
+    --glass: rgba(255,255,255,.055);
+    --radius: 22px;
+    --shadow: 0 18px 45px rgba(0,0,0,.23);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--forest);
+    color: var(--cream);
+    overflow-x: hidden;
+    line-height: 1.7;
+}
+
+body, button, input, select {
+    font-family: 'DM Sans', sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+.container {
+    width: min(1180px, 90%);
+    margin: auto;
+}
+
+.section {
+    padding: 100px 0;
+}
+
+.eyebrow {
+    color: var(--lime);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 16px;
+}
+
+.eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 2px;
+    background: var(--lime);
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Manrope', sans-serif;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: clamp(30px, 4vw, 46px);
+    letter-spacing: -1.6px;
+}
+
+.accent {
+    color: var(--lime);
+}
+
+.section-description {
+    color: var(--muted);
+    line-height: 1.9;
+    max-width: 490px;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    margin-bottom: 38px;
+}
+
+.btn {
+    border: 1px solid transparent;
+    border-radius: 50px;
+    padding: 13px 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: transform .3s, background .3s, box-shadow .3s, color .3s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+}
+
+.btn-primary {
+    background: var(--lime);
+    color: var(--forest);
+}
+
+.btn-primary:hover {
+    background: var(--lime-light);
+}
+
+.btn-outline {
+    border-color: rgba(255,255,255,.28);
+    color: white;
+    background: rgba(255,255,255,.04);
+}
+
+.btn-outline:hover {
+    background: rgba(255,255,255,.12);
+}
+
+.btn-dark {
+    background: var(--forest);
+    color: var(--cream);
+}
+
+/* NAVIGATION */
+
+.navbar {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 18px 0;
+    border-bottom: 1px solid transparent;
+    transition: background .3s, padding .3s, border-color .3s;
+}
+
+.navbar.scrolled {
+    padding: 11px 0;
+    background: rgba(16,37,27,.94);
+    backdrop-filter: blur(18px);
+    border-color: var(--border);
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    white-space: nowrap;
+}
+
+.logo-icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: var(--lime);
+    color: var(--forest);
+    border-radius: 13px;
+    transform: rotate(-5deg);
+    transition: transform .3s;
+}
+
+.logo:hover .logo-icon {
+    transform: rotate(8deg) scale(1.08);
+}
+
+.logo > span:last-child > span {
+    color: var(--lime);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #e0e8df;
+    font-size: 12px;
+    transition: color .25s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--lime);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.nav-actions .btn {
+    padding: 11px 15px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.menu-toggle {
+    display: none;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--glass);
+    color: white;
+    width: 42px;
+    height: 42px;
+    font-size: 17px;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 790px;
+    height: 100svh;
+    max-height: 1000px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #203a2b;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(8,23,16,.92) 0%, rgba(8,23,16,.66) 48%, rgba(8,23,16,.14) 100%),
+        linear-gradient(0deg, rgba(16,37,27,.9), transparent 55%),
+        url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2200&q=90") center/cover;
+    animation: heroZoom 18s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(1180px, 90%);
+    margin: 75px auto 0;
+}
+
+.hero-copy {
+    max-width: 720px;
+    animation: rise .9s both;
+}
+
+.hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid rgba(199,232,108,.35);
+    background: rgba(199,232,108,.1);
+    color: var(--lime);
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 11px;
+    letter-spacing: .7px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+}
+
+.hero h1 {
+    font-size: clamp(47px, 7.4vw, 88px);
+    font-weight: 800;
+    letter-spacing: -4.5px;
+    line-height: 1.04;
+}
+
+.hero h1 em {
+    color: var(--lime);
+    font-style: normal;
+}
+
+.hero-description {
+    color: #d2ddd3;
+    max-width: 510px;
+    line-height: 1.9;
+    font-size: 15px;
+    margin: 24px 0 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 43px;
+}
+
+.hero-stat {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    place-items: center;
+    color: var(--lime);
+    background: rgba(255,255,255,.1);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+.hero-stat strong {
+    display: block;
+    font-family: 'Manrope', sans-serif;
+    font-size: 17px;
+}
+
+.hero-stat small {
+    display: block;
+    color: #bdcbbf;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.hero-side-note {
+    position: absolute;
+    z-index: 2;
+    right: 5%;
+    bottom: 75px;
+    padding: 18px 21px;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 17px;
+    background: rgba(255,255,255,.09);
+    backdrop-filter: blur(18px);
+    max-width: 230px;
+    animation: float 5s ease-in-out infinite;
+}
+
+.hero-side-note small {
+    color: var(--lime);
+    text-transform: uppercase;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+}
+
+.hero-side-note h3 {
+    margin-top: 8px;
+    font-size: 16px;
+}
+
+.hero-side-note p {
+    font-size: 11px;
+    color: #d1ddd2;
+    margin-top: 6px;
+    line-height: 1.7;
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* SEARCH */
+
+.search-wrap {
+    position: relative;
+    z-index: 5;
+    margin-top: -43px;
+}
+
+.search-panel {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 22px;
+    border-radius: 22px;
+    background: rgba(29,57,41,.96);
+    border: 1px solid rgba(255,255,255,.16);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+}
+
+.search-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.search-field > i {
+    color: var(--lime);
+    font-size: 18px;
+}
+
+.search-field label {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 7px;
+}
+
+.search-field input,
+.search-field select {
+    width: 100%;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 12px;
+}
+
+.search-field input::placeholder {
+    color: #e0e8df;
+}
+
+.search-field select option {
+    color: var(--forest);
+}
+
+.search-panel .btn {
+    white-space: nowrap;
+}
+
+/* DESTINATIONS */
+
+.destination-section {
+    background: var(--forest);
+}
+
+.filter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 28px;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: #c1cec3;
+    border-radius: 50px;
+    padding: 9px 16px;
+    font-size: 11px;
+    transition: .25s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    color: var(--forest);
+    background: var(--lime);
+    border-color: var(--lime);
+}
+
+.destination-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.destination-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--glass);
+    transition: transform .4s, box-shadow .4s, border-color .4s;
+}
+
+.destination-card:hover {
+    transform: translateY(-9px);
+    border-color: rgba(199,232,108,.45);
+    box-shadow: 0 22px 45px rgba(0,0,0,.28);
+}
+
+.destination-card.hidden {
+    display: none;
+}
+
+.card-image {
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s;
+}
+
+.destination-card:hover .card-image img {
+    transform: scale(1.09);
+}
+
+.card-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(16,37,27,.85);
+    border: 1px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(10px);
+    color: var(--lime);
+    padding: 7px 11px;
+    border-radius: 50px;
+    font-size: 10px;
+}
+
+.save-btn {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 50%;
+    background: rgba(16,37,27,.75);
+    color: white;
+    transition: .3s;
+}
+
+.save-btn:hover,
+.save-btn.saved {
+    background: var(--lime);
+    color: var(--forest);
+    transform: scale(1.08);
+}
+
+.card-body {
+    padding: 21px;
+}
+
+.card-location {
+    color: var(--lime);
+    font-size: 10px;
+    letter-spacing: .5px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.card-body h3 {
+    font-size: 21px;
+    margin: 11px 0;
+}
+
+.card-body > p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+    min-height: 44px;
+}
+
+.card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+    padding-top: 17px;
+}
+
+.card-bottom span {
+    color: #d0d9d1;
+    font-size: 11px;
+}
+
+.card-bottom a {
+    color: var(--lime);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.card-bottom a:hover {
+    text-decoration: underline;
+}
+
+.no-results {
+    display: none;
+    color: var(--muted);
+    padding: 30px 0;
+}
+
+/* WHY ECOTRAIL */
+
+.why-section {
+    background: #f2f1e6;
+    color: var(--forest);
+}
+
+.why-section .section-description {
+    color: #667468;
+}
+
+.why-section .eyebrow {
+    color: #3c6a38;
+}
+
+.why-section .eyebrow::before {
+    background: #3c6a38;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 22px;
+}
+
+.why-card {
+    padding: 30px;
+    border: 1px solid rgba(16,37,27,.1);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,.58);
+    transition: transform .35s, box-shadow .35s;
+}
+
+.why-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 18px 35px rgba(16,37,27,.1);
+}
+
+.why-icon {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 17px;
+    background: #e1edc1;
+    color: #284b2b;
+    font-size: 20px;
+    margin-bottom: 22px;
+    transition: transform .35s;
+}
+
+.why-card:hover .why-icon {
+    transform: rotate(-8deg) scale(1.08);
+}
+
+.why-card h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.why-card p {
+    font-size: 12px;
+    line-height: 1.9;
+    color: #647265;
+}
+
+/* HOW IT WORKS */
+
+.journey-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 18px;
+}
+
+.journey-card {
+    padding: 27px 23px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+    transition: transform .35s, background .35s, box-shadow .35s;
+}
+
+.journey-card:hover {
+    transform: translateY(-8px);
+    background: rgba(199,232,108,.08);
+    box-shadow: 0 20px 40px rgba(0,0,0,.2);
+}
+
+.journey-number {
+    color: var(--lime);
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.journey-icon {
+    font-size: 25px;
+    color: var(--lime);
+    margin: 28px 0 21px;
+    transition: transform .35s;
+}
+
+.journey-card:hover .journey-icon {
+    transform: translateY(-4px) scale(1.1);
+}
+
+.journey-card h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.journey-card p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+/* SUSTAINABLE IMPACT */
+
+.impact-section {
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(12,33,22,.96), rgba(12,33,22,.79)),
+        url("https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=2000&q=85") center/cover;
+}
+
+.impact-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: 70px;
+}
+
+.impact-copy p {
+    color: #c0cec2;
+    font-size: 14px;
+    line-height: 1.95;
+    margin-top: 20px;
+    max-width: 480px;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+}
+
+.impact-item {
+    padding: 25px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    transition: transform .3s, background .3s;
+}
+
+.impact-item:hover {
+    transform: translateY(-5px);
+    background: rgba(199,232,108,.1);
+}
+
+.impact-item i {
+    color: var(--lime);
+    font-size: 21px;
+    margin-bottom: 18px;
+}
+
+.impact-item strong {
+    display: block;
+    font-family: 'Manrope', sans-serif;
+    font-size: 23px;
+}
+
+.impact-item span {
+    color: #c1cec3;
+    font-size: 11px;
+    display: block;
+    margin-top: 7px;
+}
+
+/* TEAM */
+
+.team-section {
+    background: #0c1e14;
+}
+
+.team-header {
+    max-width: 690px;
+    margin: 0 auto 42px;
+    text-align: center;
+}
+
+.team-header .eyebrow {
+    justify-content: center;
+}
+
+.team-header .section-description {
+    margin-inline: auto;
+}
+
+.team-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 10px 18px;
+    border: 1px solid rgba(199,232,108,.3);
+    border-radius: 50px;
+    background: rgba(199,232,108,.07);
+    color: var(--lime);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 24px;
+}
+
+.team-card {
+    padding: 30px;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    background: linear-gradient(145deg,rgba(25,55,39,.85),rgba(12,30,20,.95));
+    transition: transform .35s, border-color .35s, box-shadow .35s;
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(199,232,108,.45);
+    box-shadow: 0 22px 45px rgba(0,0,0,.28);
+}
+
+.team-top {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    margin-bottom: 20px;
+}
+
+.team-avatar {
+    width: 70px;
+    height: 70px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(199,232,108,.4);
+    border-radius: 20px;
+    background: rgba(199,232,108,.12);
+    color: var(--lime);
+    font-family: 'Manrope', sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+    transition: transform .3s;
+}
+
+.team-card:hover .team-avatar {
+    transform: rotate(-5deg) scale(1.05);
+}
+
+.team-role {
+    color: var(--lime);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.team-card h3 {
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+.team-education {
+    margin-bottom: 14px;
+    color: #c1d0c1;
+    font-size: 12px;
+}
+
+.team-bio {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 20px;
+}
+
+.team-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.team-tags span {
+    padding: 6px 10px;
+    border: 1px solid rgba(199,232,108,.18);
+    border-radius: 8px;
+    background: rgba(199,232,108,.05);
+    color: #dce5d7;
+    font-size: 10px;
+}
+
+.linkedin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 10px;
+    background: var(--lime);
+    color: var(--forest);
+    font-size: 12px;
+    font-weight: 800;
+    transition: transform .25s, background .25s, box-shadow .25s;
+}
+
+.linkedin-btn:hover {
+    transform: translateY(-3px);
+    background: var(--lime-light);
+    box-shadow: 0 10px 25px rgba(199,232,108,.15);
+}
+
+.linkedin-icon {
+    display: grid;
+    place-items: center;
+    width: 23px;
+    height: 23px;
+    border-radius: 5px;
+    background: var(--forest);
+    color: var(--lime);
+    font-family: Arial, sans-serif;
+    font-weight: 800;
+}
+
+.linkedin-arrow {
+    margin-left: auto;
+}
+
+/* COMMUNITY CTA */
+
+.community-section {
+    padding: 85px 0;
+}
+
+.community-banner {
+    position: relative;
+    padding: 58px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.17);
+    border-radius: 30px;
+    background:
+        linear-gradient(90deg, rgba(21,52,35,.97), rgba(21,52,35,.8)),
+        url("https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1600&q=85") center/cover;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 35px;
+    box-shadow: var(--shadow);
+}
+
+.community-copy {
+    max-width: 610px;
+}
+
+.community-copy h2 {
+    font-size: clamp(29px,4vw,43px);
+}
+
+.community-copy p {
+    color: #c1cec3;
+    line-height: 1.9;
+    font-size: 13px;
+    margin-top: 16px;
+}
+
+.community-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+/* NEWSLETTER */
+
+.newsletter-section {
+    padding: 0 0 90px;
+}
+
+.newsletter {
+    padding: 32px;
+    background: rgba(255,255,255,.045);
+    border: 1px solid var(--border);
+    border-radius: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.newsletter h3 {
+    font-size: 22px;
+}
+
+.newsletter p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+    margin-top: 8px;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 9px;
+    width: min(440px,100%);
+}
+
+.newsletter-form input {
+    min-width: 0;
+    flex: 1;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    background: rgba(255,255,255,.06);
+    color: white;
+    outline: none;
+    font-size: 12px;
+    transition: border-color .3s;
+}
+
+.newsletter-form input:focus {
+    border-color: var(--lime);
+}
+
+.newsletter-form input::placeholder {
+    color: #aab8ac;
+}
+
+/* CREDIBLE REFERENCES */
+
+.eco-references {
+    margin-top: 25px;
+    padding: 25px;
+    border: 1px solid rgba(199,232,108,.22);
+    border-radius: 20px;
+    background: rgba(25,55,41,.65);
+}
+
+.eco-reference-label {
+    color: var(--lime);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.eco-references > h3 {
+    margin: 10px 0;
+    font-size: 22px;
+}
+
+.eco-references > p,
+.eco-reference-card p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.eco-reference-grid {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.eco-reference-card {
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 15px;
+    background: rgba(255,255,255,.035);
+    transition: transform .25s, box-shadow .25s;
+}
+
+.eco-reference-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(0,0,0,.2);
+}
+
+.eco-reference-card > i {
+    margin-bottom: 12px;
+    color: var(--lime);
+    font-size: 21px;
+}
+
+.eco-reference-card h4 {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.eco-reference-card a {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--lime);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* FOOTER */
+
+footer {
+    border-top: 1px solid var(--border);
+    padding: 48px 0 22px;
+    background: #0b1c13;
+}
+
+.footer-main {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.footer-about p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.9;
+    max-width: 280px;
+    margin-top: 17px;
+}
+
+.footer-column h4 {
+    font-size: 13px;
+    margin-bottom: 19px;
+}
+
+.footer-column a {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin: 13px 0;
+    transition: color .25s, transform .25s;
+}
+
+.footer-column a:hover {
+    color: var(--lime);
+    transform: translateX(3px);
+}
+
+.social-links {
+    display: flex;
+    gap: 9px;
+    margin-top: 19px;
+}
+
+.social-links a {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: #dce7dc;
+    transition: .3s;
+}
+
+.social-links a:hover {
+    background: var(--lime);
+    color: var(--forest);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+    padding-top: 22px;
+    color: #87978a;
+    font-size: 10px;
+}
+
+.footer-bottom a:hover {
+    color: var(--lime);
+}
+
+/* TOAST */
+
+.toast {
+    position: fixed;
+    z-index: 2000;
+    bottom: 25px;
+    right: 25px;
+    max-width: calc(100% - 40px);
+    background: var(--lime);
+    color: var(--forest);
+    padding: 15px 20px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity .3s, transform .3s;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* SCROLL REVEAL */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity .7s ease, transform .7s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+    .nav-links {
+        gap: 13px;
+    }
+
+    .nav-links a {
+        font-size: 11px;
+    }
+
+    .nav-actions .btn {
+        padding: 10px 12px;
+    }
+
+    .search-panel {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .search-panel > .btn {
+        width: 100%;
+    }
+
+    .journey-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .footer-main {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media (max-width: 850px) {
+    .section {
+        padding: 75px 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-inner {
+        flex-wrap: wrap;
+    }
+
+    .nav-actions {
+        margin-left: auto;
+    }
+
+    .nav-actions .btn-outline {
+        display: none;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: calc(100% + 1px);
+        left: 0;
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 12px 5% 20px;
+        background: rgba(16,37,27,.98);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-links.open {
+        display: flex;
+        animation: rise .25s both;
+    }
+
+    .nav-links a {
+        padding: 13px 4px;
+        font-size: 13px;
+        border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .hero {
+        min-height: 750px;
+        height: auto;
+        padding: 145px 0 85px;
+    }
+
+    .hero-content {
+        margin: 0 auto;
+    }
+
+    .hero h1 {
+        letter-spacing: -2.5px;
+    }
+
+    .hero-side-note {
+        display: none;
+    }
+
+    .hero-stats {
+        gap: 20px;
+    }
+
+    .search-wrap {
+        margin-top: -28px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .why-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .impact-layout {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .community-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 35px;
+    }
+
+    .newsletter {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .newsletter-form {
+        width: 100%;
+    }
+
+    .eco-reference-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .logo-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .hero {
+        min-height: 710px;
+    }
+
+    .hero h1 {
+        font-size: clamp(43px,12vw,58px);
+    }
+
+    .hero-description {
+        font-size: 13px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+    }
+
+    .hero-stats {
+        gap: 16px;
+    }
+
+    .hero-stat strong {
+        font-size: 15px;
+    }
+
+    .search-panel {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .search-field {
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .destination-grid,
+    .why-grid,
+    .journey-grid,
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-image {
+        height: 235px;
+    }
+
+    .impact-grid {
+        gap: 10px;
+    }
+
+    .impact-item {
+        padding: 18px;
+    }
+
+    .impact-item strong {
+        font-size: 20px;
+    }
+
+    .community-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .community-actions .btn {
+        width: 100%;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    .newsletter-form .btn {
+        width: 100%;
+    }
+
+    .footer-main {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px 18px;
+    }
+
+    .footer-about {
+        grid-column: 1 / -1;
+    }
+
+    .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+</style>
+</head>
+
+<body id="top">
+
+<!-- NAVIGATION -->
+<header class="navbar" id="navbar">
+    <div class="container nav-inner">
+
+        <a href="index.html" class="logo" aria-label="EcoTrail home">
+            <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+            <span>Eco<span>Trail</span></span>
+        </a>
+
+        <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+            <a href="index.html" class="active">Home</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="#why">Why EcoTrail</a>
+            <a href="#team">Our Team</a>
+            <a href="about.html">About</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="login.html" class="btn btn-outline">Log in</a>
+            <a href="createaccount.html" class="btn btn-primary">
+                Join EcoTrail <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <button class="menu-toggle" id="menuToggle"
+                type="button" aria-label="Toggle navigation"
+                aria-expanded="false" aria-controls="navLinks">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+    </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-bg"></div>
+
+    <div class="hero-content">
+        <div class="hero-copy">
+
+            <div class="hero-tag">
+                <i class="fa-solid fa-seedling"></i>
+                TRAVEL LIGHT. LIVE FULLY.
+            </div>
+
+            <h1>
+                Find your<br>
+                <em>wild side.</em>
+            </h1>
+
+            <p class="hero-description">
+                Discover extraordinary places, explore hidden trails and
+                experience the beauty of our planet. Plan your journey
+                with purpose and learn to leave a lighter footprint.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#destinations" class="btn btn-primary">
+                    Explore destinations <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <a href="createaccount.html" class="btn btn-outline">
+                    <i class="fa-regular fa-compass"></i> Start your journey
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="stat-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+                    <div><strong>Discover</strong><small>Nature escapes</small></div>
+                </div>
+
+                <div class="hero-stat">
+                    <div class="stat-icon"><i class="fa-solid fa-earth-asia"></i></div>
+                    <div><strong>Eco-first</strong><small>Travel philosophy</small></div>
+                </div>
+
+                <div class="hero-stat">
+                    <div class="stat-icon"><i class="fa-solid fa-heart"></i></div>
+                    <div><strong>Travel better</strong><small>Make thoughtful choices</small></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="hero-side-note">
+        <small><i class="fa-solid fa-location-dot"></i> Your next escape</small>
+        <h3>Somewhere greener.</h3>
+        <p>Less noise. More nature. A journey worth remembering.</p>
+    </div>
+</section>
+
+<!-- SEARCH -->
+<div class="container search-wrap">
+    <form class="search-panel" id="searchForm">
+
+        <div class="search-field">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <div style="flex:1;min-width:0">
+                <label for="destinationSearch">Find your destination</label>
+                <input id="destinationSearch" type="search"
+                       placeholder="Try Coorg, forest, mountains...">
+            </div>
+        </div>
+
+        <div class="search-field">
+            <i class="fa-solid fa-mountain-sun"></i>
+            <div style="flex:1;min-width:0">
+                <label for="typeSearch">Experience type</label>
+                <select id="typeSearch">
+                    <option value="all">All experiences</option>
+                    <option value="forest">Forest & wildlife</option>
+                    <option value="mountain">Mountains</option>
+                    <option value="water">Water & lakes</option>
+                    <option value="coast">Coastal escapes</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="search-field">
+            <i class="fa-solid fa-person-hiking"></i>
+            <div style="flex:1;min-width:0">
+                <label for="styleSearch">Travel style</label>
+                <select id="styleSearch">
+                    <option value="all">Any adventure</option>
+                    <option value="relax">Slow & peaceful</option>
+                    <option value="adventure">Active adventure</option>
+                    <option value="wildlife">Wildlife & nature</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">
+            Find places <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </form>
+</div>
+
+<!-- DESTINATIONS -->
+<section class="section destination-section" id="destinations">
+    <div class="container">
+
+        <div class="section-heading reveal">
+            <div>
+                <div class="eyebrow">The world is waiting</div>
+                <h2>Places that stay<br>with you.</h2>
+                <p class="section-description">
+                    From misty mountain mornings to quiet forest paths,
+                    find inspiration for your next unforgettable escape.
+                </p>
+            </div>
+
+            <a href="destinations.html" class="btn btn-outline">
+                All destinations <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="filter-list reveal" aria-label="Filter destinations">
+            <button type="button" class="filter-btn active" data-filter="all">All places</button>
+            <button type="button" class="filter-btn" data-filter="forest">Forest</button>
+            <button type="button" class="filter-btn" data-filter="mountain">Mountains</button>
+            <button type="button" class="filter-btn" data-filter="water">Lakes & waterfalls</button>
+            <button type="button" class="filter-btn" data-filter="coast">Coastal</button>
+        </div>
+
+        <div class="destination-grid" id="destinationGrid">
+
+            <article class="destination-card reveal"
+                data-category="forest"
+                data-style="wildlife relax"
+                data-search="coorg karnataka coffee forest green hills nature">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=85"
+                         alt="Sunlight filtering through a green forest" loading="lazy">
+                    <span class="card-badge"><i class="fa-solid fa-leaf"></i> Forest retreat</span>
+                    <button type="button" class="save-btn" aria-label="Save Coorg" aria-pressed="false">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="card-location"><i class="fa-solid fa-location-dot"></i> KARNATAKA, INDIA</div>
+                    <h3>Coorg Green Escape</h3>
+                    <p>Wander through coffee plantations, misty forests and peaceful green hills.</p>
+                    <div class="card-bottom">
+                        <span><i class="fa-regular fa-clock"></i> Weekend getaway</span>
+                        <a href="destinations.html">Explore <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="destination-card reveal"
+                data-category="mountain"
+                data-style="adventure relax"
+                data-search="himalayas mountains himachal snow hiking adventure">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85"
+                         alt="Majestic mountain peaks" loading="lazy">
+                    <span class="card-badge"><i class="fa-solid fa-mountain"></i> Mountain air</span>
+                    <button type="button" class="save-btn" aria-label="Save mountain escape" aria-pressed="false">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="card-location"><i class="fa-solid fa-location-dot"></i> HIMACHAL PRADESH, INDIA</div>
+                    <h3>Highland Hideaway</h3>
+                    <p>Find fresh mountain air, winding trails and views that take your breath away.</p>
+                    <div class="card-bottom">
+                        <span><i class="fa-solid fa-person-hiking"></i> Adventure</span>
+                        <a href="destinations.html">Explore <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="destination-card reveal"
+                data-category="water"
+                data-style="relax wildlife"
+                data-search="lake water hills peaceful nature reflection">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=85"
+                         alt="A peaceful lake surrounded by mountains" loading="lazy">
+                    <span class="card-badge"><i class="fa-solid fa-water"></i> Lakeside calm</span>
+                    <button type="button" class="save-btn" aria-label="Save lake escape" aria-pressed="false">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="card-location"><i class="fa-solid fa-location-dot"></i> NATURE ESCAPES</div>
+                    <h3>Stillwater Sanctuary</h3>
+                    <p>Slow down beside peaceful waters and reconnect with the outdoors.</p>
+                    <div class="card-bottom">
+                        <span><i class="fa-solid fa-spa"></i> Slow travel</span>
+                        <a href="destinations.html">Explore <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="destination-card reveal"
+                data-category="forest"
+                data-style="wildlife adventure"
+                data-search="wildlife forest national park animals trees nature">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=900&q=85"
+                         alt="Wild deer in a natural green landscape" loading="lazy">
+                    <span class="card-badge"><i class="fa-solid fa-paw"></i> Wildlife</span>
+                    <button type="button" class="save-btn" aria-label="Save wildlife escape" aria-pressed="false">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="card-location"><i class="fa-solid fa-location-dot"></i> NATURE RESERVES</div>
+                    <h3>Into the Wild</h3>
+                    <p>Appreciate biodiversity and discover wildlife in natural habitats.</p>
+                    <div class="card-bottom">
+                        <span><i class="fa-solid fa-binoculars"></i> Nature trails</span>
+                        <a href="destinations.html">Explore <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="destination-card reveal"
+                data-category="coast"
+                data-style="relax adventure"
+                data-search="coast beach ocean sea sand coastal sunset">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=900&q=85"
+                         alt="Ocean waves rolling toward the shore" loading="lazy">
+                    <span class="card-badge"><i class="fa-solid fa-water"></i> Ocean escape</span>
+                    <button type="button" class="save-btn" aria-label="Save coastal escape" aria-pressed="false">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="card-location"><i class="fa-solid fa-location-dot"></i> COASTAL RETREATS</div>
+                    <h3>Beyond the Blue</h3>
+                    <p>Enjoy ocean breezes and discover quieter coastlines.</p>
+                    <div class="card-bottom">
+                        <span><i class="fa-solid fa-umbrella-beach"></i> Coastal calm</span>
+                        <a href="destinations.html">Explore <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="destination-card reveal"
+                data-category="water"
+                data-style="adventure wildlife"
+                data-search="waterfall hills hiking river adventure forest">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=900&q=85"
+                         alt="A waterfall flowing into a green landscape" loading="lazy">
+                    <span class="card-badge"><i class="fa-solid fa-droplet"></i> Hidden gem</span>
+                    <button type="button" class="save-btn" aria-label="Save waterfall escape" aria-pressed="false">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="card-location"><i class="fa-solid fa-location-dot"></i> OFF THE BEATEN PATH</div>
+                    <h3>Hidden Waterfall Trail</h3>
+                    <p>Follow the sound of rushing water and explore beautiful natural places.</p>
+                    <div class="card-bottom">
+                        <span><i class="fa-solid fa-person-hiking"></i> Trail adventure</span>
+                        <a href="destinations.html">Explore <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <p class="no-results" id="noResults">
+            No matching destinations found. Try another search or filter.
+        </p>
+    </div>
+</section>
+
+<!-- WHY ECOTRAIL -->
+<section class="section why-section" id="why">
+    <div class="container">
+
+        <div class="section-heading reveal">
+            <div>
+                <div class="eyebrow">Travel with intention</div>
+                <h2>Good journeys.<br>Better footprints.</h2>
+                <p class="section-description">
+                    Adventure should be good for you and considerate of
+                    the places you visit. EcoTrail puts mindful
+                    exploration first.
+                </p>
+            </div>
+
+            <a href="about.html" class="btn btn-dark">
+                About EcoTrail <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="why-grid">
+            <article class="why-card reveal">
+                <div class="why-icon"><i class="fa-solid fa-earth-asia"></i></div>
+                <h3>Planet-friendly choices</h3>
+                <p>Explore ideas for lower-impact travel, responsible outdoor activities and thoughtful ways to enjoy nature.</p>
+            </article>
+
+            <article class="why-card reveal">
+                <div class="why-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                <h3>Discover new places</h3>
+                <p>Find inspiration for quiet trails, green escapes, beautiful landscapes and local experiences.</p>
+            </article>
+
+            <article class="why-card reveal">
+                <div class="why-icon"><i class="fa-solid fa-route"></i></div>
+                <h3>Plan with ease</h3>
+                <p>Bring destination discovery, trip planning and saved places together in one convenient website.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="journey">
+    <div class="container">
+
+        <div class="section-heading reveal">
+            <div>
+                <div class="eyebrow">Your journey starts here</div>
+                <h2>Four steps to your<br>next adventure.</h2>
+                <p class="section-description">
+                    Use EcoTrail to discover places, organise your
+                    ideas and prepare for your next journey.
+                </p>
+            </div>
+        </div>
+
+        <div class="journey-grid">
+            <article class="journey-card reveal">
+                <span class="journey-number">STEP 01</span>
+                <div class="journey-icon"><i class="fa-solid fa-compass"></i></div>
+                <h3>Discover</h3>
+                <p>Search destinations and explore places that match your interests.</p>
+            </article>
+
+            <article class="journey-card reveal">
+                <span class="journey-number">STEP 02</span>
+                <div class="journey-icon"><i class="fa-solid fa-heart"></i></div>
+                <h3>Save</h3>
+                <p>Keep your favourite destinations handy for future trip planning.</p>
+            </article>
+
+            <article class="journey-card reveal">
+                <span class="journey-number">STEP 03</span>
+                <div class="journey-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                <h3>Plan</h3>
+                <p>Use the available planning tools to organise your travel ideas.</p>
+            </article>
+
+            <article class="journey-card reveal">
+                <span class="journey-number">STEP 04</span>
+                <div class="journey-icon"><i class="fa-solid fa-leaf"></i></div>
+                <h3>Travel responsibly</h3>
+                <p>Respect local communities, wildlife and the natural environment.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- SUSTAINABLE TRAVEL -->
+<section class="section impact-section" id="impact">
+    <div class="container impact-layout">
+
+        <div class="impact-copy reveal">
+            <div class="eyebrow">Make every choice count</div>
+            <h2>Travel with care.<br><span class="accent">Leave nature better.</span></h2>
+            <p>
+                Responsible travel starts with small decisions.
+                Respect local traditions, reduce waste, consider
+                lower-impact transport where practical and leave
+                natural places as you found them.
+            </p>
+            <a href="about.html#sustainability" class="btn btn-primary" style="margin-top:25px">
+                Travel Responsibly <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="impact-grid">
+            <article class="impact-item reveal">
+                <i class="fa-solid fa-recycle"></i>
+                <strong>Reduce waste</strong>
+                <span>Carry reusable items and avoid littering.</span>
+            </article>
+
+            <article class="impact-item reveal">
+                <i class="fa-solid fa-paw"></i>
+                <strong>Respect wildlife</strong>
+                <span>Observe animals without disturbing them.</span>
+            </article>
+
+            <article class="impact-item reveal">
+                <i class="fa-solid fa-store"></i>
+                <strong>Support local</strong>
+                <span>Consider locally owned businesses and services.</span>
+            </article>
+
+            <article class="impact-item reveal">
+                <i class="fa-solid fa-person-walking"></i>
+                <strong>Choose thoughtfully</strong>
+                <span>Consider walking or shared transport when suitable.</span>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- COMMUNITY CTA -->
+<section class="community-section" id="community">
+    <div class="container">
+        <div class="community-banner reveal">
+
+            <div class="community-copy">
+                <div class="eyebrow">Explore together</div>
+                <h2>Every great journey<br>starts with a <span class="accent">discovery.</span></h2>
+                <p>
+                    Join the EcoTrail experience, explore new places
+                    and find inspiration for your next adventure.
+                </p>
+            </div>
+
+            <div class="community-actions">
+                <a href="createaccount.html" class="btn btn-primary">
+                    Join EcoTrail <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="community.html" class="btn btn-outline">
+                    Visit Community
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- NEWSLETTER DEMO -->
+<section class="newsletter-section">
+    <div class="container">
+        <div class="newsletter reveal">
+
+            <div>
+                <div class="eyebrow">A little inspiration</div>
+                <h3>Stay curious. Keep exploring.</h3>
+                <p>
+                    Enter your email to try the newsletter signup
+                    demo. This form does not send or store your email.
+                </p>
+            </div>
+
+            <form class="newsletter-form" id="newsletterForm">
+                <input type="email" id="newsletterEmail"
+                       placeholder="Enter your email address"
+                       aria-label="Email address" required>
+                <button type="submit" class="btn btn-primary">
+                    Subscribe <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+        </div>
+
+        <!-- SUSTAINABILITY REFERENCES -->
+        <div class="eco-references reveal">
+            <span class="eco-reference-label">LEARN FROM TRUSTED SOURCES</span>
+            <h3>Travel responsibly, with knowledge.</h3>
+            <p>
+                Explore these organisations for guidance on
+                sustainable tourism, conservation and responsible
+                travel practices.
+            </p>
+
+            <div class="eco-reference-grid">
+
+                <article class="eco-reference-card">
+                    <i class="fa-solid fa-earth-asia"></i>
+                    <h4>UN Tourism</h4>
+                    <p>
+                        Learn about sustainable tourism and its
+                        environmental, social and economic dimensions.
+                    </p>
+                    <a href="https://www.unwto.org/sustainable-development"
+                       target="_blank" rel="noopener noreferrer">
+                        Visit UN Tourism ↗
+                    </a>
+                </article>
+
+                <article class="eco-reference-card">
+                    <i class="fa-solid fa-tree"></i>
+                    <h4>UN Environment Programme</h4>
+                    <p>
+                        Explore environmental initiatives and
+                        information about protecting our planet.
+                    </p>
+                    <a href="https://www.unep.org/"
+                       target="_blank" rel="noopener noreferrer">
+                        Visit UNEP ↗
+                    </a>
+                </article>
+
+                <article class="eco-reference-card">
+                    <i class="fa-solid fa-paw"></i>
+                    <h4>World Wildlife Fund</h4>
+                    <p>
+                        Discover wildlife conservation and ways
+                        people can help protect natural habitats.
+                    </p>
+                    <a href="https://www.worldwildlife.org/"
+                       target="_blank" rel="noopener noreferrer">
+                        Visit WWF ↗
+                    </a>
+                </article>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+
+        <div class="footer-main">
+
+            <div class="footer-about">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+                    <span>Eco<span>Trail</span></span>
+                </a>
+
+                <p>
+                    Discover destinations, plan journeys and explore
+                    the world with a more responsible mindset.
+                    Every journey is an opportunity to learn.
+                </p>
+
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/tanush-muddapur-81543937b/"
+                       target="_blank" rel="noopener noreferrer"
+                       aria-label="Tanush Muddapur LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/shivanna-m-jakati-285ab737b/"
+                       target="_blank" rel="noopener noreferrer"
+                       aria-label="Shivanna M. Jakati LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+
+                    <a href="about.html" aria-label="About EcoTrail">
+                        <i class="fa-solid fa-leaf"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <a href="index.html">Home</a>
+                <a href="about.html">About EcoTrail</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="createaccount.html">Create Account</a>
+                <a href="login.html">Log In</a>
+            </div>
+
+            <div class="footer-column">
+                <h4>Explore</h4>
+                <a href="destinations.html">Destinations</a>
+                <a href="tripplanner.html">Trip Planner</a>
+                <a href="mapbooking.html">Maps & Booking</a>
+                <a href="savedplaces.html">Saved Places</a>
+                <a href="community.html">Community</a>
+            </div>
+
+            <div class="footer-column">
+                <h4>Travel Responsibly</h4>
+                <a href="#impact">Eco-Impact Tips</a>
+                <a href="#why">Why EcoTrail</a>
+                <a href="#journey">How It Works</a>
+                <a href="#team">End of Beginning</a>
+                <a href="about.html#team">Meet Our Team</a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>
+                © <span id="currentYear"></span> EcoTrail.
+                Made with care for our planet.
+            </p>
+            <a href="#top">Back to top ↑</a>
+        </div>
+
+    </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// NAVIGATION AND SCROLL EFFECT
+const navbar = document.getElementById('navbar');
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+
+window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+}, { passive: true });
+
+menuToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    menuToggle.setAttribute(
+        'aria-label',
+        isOpen ? 'Close navigation' : 'Open navigation'
+    );
+
+    menuToggle.innerHTML = isOpen
+        ? '<i class="fa-solid fa-xmark"></i>'
+        : '<i class="fa-solid fa-bars"></i>';
+});
+
+navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    });
+});
+
+// TOAST MESSAGES
+let toastTimer;
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+// DESTINATION FILTERS AND SEARCH
+const cards = [...document.querySelectorAll('.destination-card')];
+const filterButtons = [...document.querySelectorAll('.filter-btn')];
+const destinationSearch = document.getElementById('destinationSearch');
+const typeSearch = document.getElementById('typeSearch');
+const styleSearch = document.getElementById('styleSearch');
+const noResults = document.getElementById('noResults');
+
+let activeCategory = 'all';
+
+function filterDestinations() {
+    const query = destinationSearch.value.trim().toLowerCase();
+    const selectedType = typeSearch.value;
+    const selectedStyle = styleSearch.value;
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+        const category = card.dataset.category;
+        const searchText =
+            (card.dataset.search + ' ' + card.innerText).toLowerCase();
+        const styles = card.dataset.style.split(' ');
+
+        const matchesCategory =
+            activeCategory === 'all' || category === activeCategory;
+
+        const matchesType =
+            selectedType === 'all' || category === selectedType;
+
+        const matchesStyle =
+            selectedStyle === 'all' || styles.includes(selectedStyle);
+
+        const matchesQuery =
+            !query || searchText.includes(query);
+
+        const show =
+            matchesCategory &&
+            matchesType &&
+            matchesStyle &&
+            matchesQuery;
+
+        card.classList.toggle('hidden', !show);
+
+        if (show) visibleCount++;
+    });
+
+    noResults.style.display = visibleCount ? 'none' : 'block';
+}
+
+filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        activeCategory = button.dataset.filter;
+
+        filterButtons.forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+
+        typeSearch.value = 'all';
+        filterDestinations();
+    });
+});
+
+document.getElementById('searchForm').addEventListener('submit', event => {
+    event.preventDefault();
+
+    activeCategory = 'all';
+
+    filterButtons.forEach(button => {
+        button.classList.toggle('active', button.dataset.filter === 'all');
+    });
+
+    filterDestinations();
+
+    document.getElementById('destinations').scrollIntoView({
+        behavior: 'smooth'
+    });
+});
+
+destinationSearch.addEventListener('input', filterDestinations);
+
+typeSearch.addEventListener('change', () => {
+    activeCategory = 'all';
+
+    filterButtons.forEach(button => {
+        button.classList.toggle('active', button.dataset.filter === 'all');
+    });
+
+    filterDestinations();
+});
+
+styleSearch.addEventListener('change', filterDestinations);
+
+// SAVE BUTTONS — FRONTEND DEMO
+document.querySelectorAll('.save-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const saved = button.classList.toggle('saved');
+
+        button.setAttribute('aria-pressed', String(saved));
+        button.innerHTML = saved
+            ? '<i class="fa-solid fa-heart"></i>'
+            : '<i class="fa-regular fa-heart"></i>';
+
+        showToast(saved
+            ? 'Destination saved for this session!'
+            : 'Destination removed from this session.');
+    });
+});
+
+// NEWSLETTER — DEMO ONLY, NO EMAIL IS SENT OR STORED
+document.getElementById('newsletterForm').addEventListener('submit', event => {
+    event.preventDefault();
+
+    const email = document.getElementById('newsletterEmail').value.trim();
+
+    if (!email) return;
+
+    showToast('Thanks for your interest! Newsletter signup is a demo.');
+    event.target.reset();
+});
+
+// SCROLL REVEAL ANIMATIONS
+const revealElements = document.querySelectorAll('.reveal');
+
+if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -30px 0px'
+    });
+
+    revealElements.forEach(element => observer.observe(element));
+} else {
+    revealElements.forEach(element => element.classList.add('visible'));
+}
+
+// COPYRIGHT YEAR
+document.getElementById('currentYear').textContent =
+    new Date().getFullYear();
+</script>
+
+</body>
+</html>

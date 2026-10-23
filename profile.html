@@ -1,0 +1,1358 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10251b">
+<title>My Profile | EcoTrail</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root {
+  --forest:#10251b;
+  --forest2:#193729;
+  --forest3:#254a36;
+  --lime:#c7e86c;
+  --cream:#f7f5eb;
+  --muted:#a5b4a8;
+  --border:rgba(255,255,255,.12);
+  --glass:rgba(255,255,255,.055);
+  --danger:#ff9d9d;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{
+  min-height:100vh;background:var(--forest);color:var(--cream);
+  font-family:'DM Sans',sans-serif;overflow-x:hidden;
+}
+button,input{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{
+  outline:2px solid var(--lime);outline-offset:3px
+}
+::selection{background:var(--lime);color:var(--forest)}
+
+.navbar{
+  position:sticky;top:0;z-index:50;background:rgba(16,37,27,.91);
+  backdrop-filter:blur(18px);border-bottom:1px solid var(--border)
+}
+.nav-inner{
+  max-width:1200px;margin:auto;padding:15px 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px
+}
+.logo{display:flex;align-items:center;gap:10px;font:800 23px Manrope,sans-serif;letter-spacing:-1px}
+.logo-icon{
+  display:grid;place-items:center;width:40px;height:40px;border-radius:13px;
+  background:var(--lime);color:var(--forest);transform:rotate(-5deg);
+  transition:transform .3s,box-shadow .3s
+}
+.logo:hover .logo-icon{transform:rotate(8deg) scale(1.08);box-shadow:0 0 22px #c7e86c44}
+.logo span span{color:var(--lime)}
+.nav-links{display:flex;align-items:center;gap:23px;font-size:12px;color:#c2cec4}
+.nav-links>a{transition:color .2s}
+.nav-links>a:hover,.nav-links>a.active{color:var(--lime)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.user-chip{
+  display:flex;align-items:center;gap:9px;padding:7px 12px;
+  border:1px solid var(--border);border-radius:30px;background:var(--glass);
+  font-size:12px;max-width:180px
+}
+.user-chip span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avatar-small{
+  display:grid;place-items:center;width:29px;height:29px;border-radius:50%;
+  background:var(--lime);color:var(--forest);font-weight:800;flex-shrink:0
+}
+.menu-btn{
+  display:none;border:1px solid var(--border);background:var(--glass);
+  color:var(--cream);border-radius:10px;padding:10px 12px
+}
+
+.page{max-width:1100px;margin:auto;padding:38px 28px 70px}
+.hero{
+  position:relative;overflow:hidden;display:flex;justify-content:space-between;
+  align-items:center;gap:25px;padding:30px;border:1px solid var(--border);
+  border-radius:24px;
+  background:radial-gradient(ellipse at 90% 0%,#c7e86c1c,transparent 45%),
+             linear-gradient(135deg,var(--forest2),#14291e);
+  animation:rise .65s ease both
+}
+.hero:after{
+  content:"";position:absolute;width:240px;height:240px;border:1px solid #c7e86c20;
+  border-radius:50%;right:-100px;bottom:-145px;
+  box-shadow:0 0 0 28px #c7e86c08,0 0 0 60px #c7e86c05;
+  pointer-events:none
+}
+.eyebrow{
+  display:flex;align-items:center;gap:8px;color:var(--lime);
+  font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:12px
+}
+.hero h1{font:800 clamp(27px,4vw,39px) Manrope,sans-serif;letter-spacing:-1.5px}
+.hero h1 span{color:var(--lime)}
+.hero p{color:var(--muted);font-size:13px;line-height:1.8;margin-top:10px}
+.hero-avatar{
+  position:relative;z-index:1;display:grid;place-items:center;
+  width:94px;height:94px;flex-shrink:0;border-radius:28px;
+  background:var(--lime);color:var(--forest);
+  font:800 38px Manrope,sans-serif;box-shadow:0 15px 35px #0003;
+  transform:rotate(3deg);transition:transform .3s,box-shadow .3s
+}
+.hero-avatar:hover{transform:rotate(0) scale(1.06);box-shadow:0 18px 40px #c7e86c22}
+
+.quick-nav{display:flex;gap:9px;flex-wrap:wrap;margin:22px 0 30px}
+.quick-nav a{
+  display:flex;align-items:center;gap:8px;padding:10px 14px;
+  border:1px solid var(--border);border-radius:11px;
+  background:var(--glass);font-size:11px;color:#d3ddd4;
+  transition:transform .25s,border-color .25s,background .25s,box-shadow .25s
+}
+.quick-nav a:hover{
+  transform:translateY(-3px);border-color:#c7e86c80;
+  background:#c7e86c0b;box-shadow:0 8px 20px #0002;color:var(--lime)
+}
+.quick-nav i{color:var(--lime)}
+
+.section{margin-top:29px;animation:rise .6s ease both}
+.section-heading{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:14px;margin-bottom:15px
+}
+.section-heading h2{font:800 21px Manrope,sans-serif;letter-spacing:-.5px}
+.section-heading p{font-size:11px;color:var(--muted);margin-top:5px}
+.section-heading .heading-icon{
+  display:grid;place-items:center;width:42px;height:42px;flex-shrink:0;
+  border-radius:13px;background:#c7e86c13;color:var(--lime)
+}
+.panel{
+  background:var(--glass);border:1px solid var(--border);border-radius:19px;
+  padding:23px;transition:border-color .25s,box-shadow .25s
+}
+.panel:hover{border-color:#c7e86c35;box-shadow:0 12px 32px #0001}
+
+.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.detail{
+  padding:16px;border:1px solid var(--border);border-radius:13px;
+  background:#ffffff04;min-width:0
+}
+.detail-label{
+  display:flex;align-items:center;gap:8px;color:var(--muted);
+  font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:9px
+}
+.detail-label i{color:var(--lime)}
+.detail-value{font-size:14px;font-weight:700;overflow-wrap:anywhere}
+.detail-note{font-size:10px;color:var(--muted);margin-top:7px;line-height:1.6}
+
+.count-pill{
+  border:1px solid #c7e86c30;background:#c7e86c10;color:var(--lime);
+  padding:6px 10px;border-radius:30px;font-size:10px;font-weight:800;
+  white-space:nowrap
+}
+.booking-list,.saved-list{display:grid;gap:12px}
+.booking-card{
+  padding:19px;border:1px solid var(--border);border-radius:15px;
+  background:#ffffff03;transition:transform .25s,border-color .25s,box-shadow .25s
+}
+.booking-card:hover{
+  transform:translateY(-3px);border-color:#c7e86c48;
+  box-shadow:0 12px 28px #0002
+}
+.booking-top{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}
+.booking-name{font:700 16px Manrope,sans-serif;overflow-wrap:anywhere}
+.booking-ref{color:var(--muted);font-size:10px;margin-top:5px}
+.status{
+  padding:6px 9px;border-radius:30px;font-size:9px;font-weight:800;
+  white-space:nowrap;border:1px solid var(--border);background:#ffffff08
+}
+.status.active{color:var(--lime);border-color:#c7e86c38;background:#c7e86c0c}
+.status.cancelled{color:var(--danger);border-color:#ff9d9d35;background:#ff9d9d0c}
+.booking-meta{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;margin-top:17px;padding-top:15px;border-top:1px solid var(--border)
+}
+.meta-label{color:var(--muted);font-size:10px;margin-bottom:6px}
+.meta-value{font-size:12px;font-weight:600;overflow-wrap:anywhere}
+.booking-price{color:var(--lime);font-weight:800}
+.booking-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:17px}
+.policy-note{
+  margin-top:14px;padding:12px 14px;border:1px solid #c7e86c24;
+  border-radius:11px;background:#c7e86c08;color:#c9d6ca;
+  font-size:11px;line-height:1.8
+}
+.policy-note strong{color:var(--lime)}
+
+.saved-card{
+  display:flex;align-items:center;justify-content:space-between;gap:15px;
+  padding:15px;border:1px solid var(--border);border-radius:14px;
+  background:#ffffff03;transition:transform .25s,border-color .25s,box-shadow .25s
+}
+.saved-card:hover{
+  transform:translateY(-3px);border-color:#c7e86c45;box-shadow:0 10px 25px #0002
+}
+.saved-left{display:flex;align-items:center;gap:12px;min-width:0}
+.saved-icon{
+  width:44px;height:44px;display:grid;place-items:center;flex-shrink:0;
+  border-radius:13px;background:#c7e86c12;color:var(--lime);font-size:17px
+}
+.saved-name{font-size:13px;font-weight:700;overflow-wrap:anywhere}
+.saved-location{color:var(--muted);font-size:10px;margin-top:5px}
+.saved-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:10px 14px;border:1px solid transparent;border-radius:10px;
+  font-size:11px;font-weight:800;transition:transform .22s,box-shadow .22s,
+  background .22s,border-color .22s;cursor:pointer
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px #0002}
+.btn-primary{background:var(--lime);color:var(--forest)}
+.btn-primary:hover{background:#d9f68b;box-shadow:0 8px 20px #c7e86c20}
+.btn-outline{border-color:var(--border);background:#ffffff06;color:var(--cream)}
+.btn-outline:hover{border-color:var(--lime);color:var(--lime)}
+.btn-danger{border-color:#ff9d9d38;background:#ff9d9d0c;color:var(--danger)}
+.btn-danger:hover{background:#ff9d9d18;border-color:var(--danger)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+.danger-panel{
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  border-color:#ff9d9d27
+}
+.danger-panel h3{font-size:14px;margin-bottom:7px}
+.danger-panel p{max-width:600px;color:var(--muted);font-size:11px;line-height:1.8}
+.danger-panel .danger-copy{display:flex;gap:13px;align-items:flex-start}
+.danger-icon{
+  display:grid;place-items:center;width:42px;height:42px;flex-shrink:0;
+  border-radius:12px;background:#ff9d9d0c;color:var(--danger)
+}
+.empty-state{text-align:center;padding:35px 15px;color:var(--muted)}
+.empty-state>i{font-size:29px;color:var(--lime);margin-bottom:14px}
+.empty-state h3{color:var(--cream);font:700 16px Manrope,sans-serif;margin-bottom:8px}
+.empty-state p{font-size:11px;line-height:1.8;margin-bottom:16px}
+.footer{text-align:center;color:#839386;font-size:10px;padding:28px 10px 0}
+.footer span{color:var(--lime)}
+
+.modal{
+  position:fixed;inset:0;z-index:100;display:none;align-items:center;
+  justify-content:center;padding:18px;background:#06120cbb;backdrop-filter:blur(7px)
+}
+.modal.show{display:flex;animation:fadeIn .2s ease}
+.modal-card{
+  width:100%;max-width:480px;max-height:90vh;overflow-y:auto;
+  background:var(--forest2);border:1px solid var(--border);border-radius:20px;
+  padding:25px;box-shadow:0 25px 80px #0006;animation:rise .25s ease
+}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:20px}
+.modal-header h2{font:800 20px Manrope,sans-serif}
+.modal-header p{font-size:11px;color:var(--muted);line-height:1.7;margin-top:7px}
+.close-btn{
+  display:grid;place-items:center;width:34px;height:34px;flex-shrink:0;
+  border:1px solid var(--border);border-radius:10px;background:#ffffff08;color:var(--cream)
+}
+.close-btn:hover{border-color:var(--lime);color:var(--lime)}
+.form-field{margin-bottom:16px}
+.form-field label{display:block;font-size:11px;font-weight:700;margin-bottom:8px}
+.form-field input{
+  width:100%;height:46px;padding:0 13px;border:1px solid var(--border);
+  border-radius:10px;background:#ffffff08;color:var(--cream);outline:none;font-size:12px
+}
+.form-field input:focus{border-color:var(--lime);box-shadow:0 0 0 3px #c7e86c12}
+.form-field input::placeholder{color:#819184}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:20px}
+.check-row{display:flex;align-items:flex-start;gap:10px;color:#c6d2c8;font-size:11px;line-height:1.8}
+.check-row input{margin-top:4px;accent-color:var(--lime);flex-shrink:0}
+.error-message{
+  display:none;padding:11px 13px;border:1px solid #ff9d9d35;border-radius:10px;
+  background:#ff9d9d0c;color:var(--danger);font-size:11px;line-height:1.7;margin-bottom:15px
+}
+.error-message.show{display:block}
+.refund-box{
+  margin:15px 0;padding:15px;border-radius:12px;
+  background:#ffffff06;border:1px solid var(--border)
+}
+.refund-row{display:flex;justify-content:space-between;gap:15px;font-size:11px;padding:7px 0}
+.refund-row strong{color:var(--lime);text-align:right}
+.refund-row.total{border-top:1px solid var(--border);margin-top:5px;padding-top:12px;font-weight:800}
+
+.toast{
+  position:fixed;bottom:22px;right:22px;z-index:150;max-width:calc(100% - 44px);
+  padding:13px 17px;border:1px solid #c7e86c40;border-radius:12px;
+  background:var(--forest2);color:var(--cream);font-size:12px;
+  box-shadow:0 12px 30px #0004;opacity:0;transform:translateY(12px);
+  pointer-events:none;transition:opacity .25s,transform .25s
+}
+.toast.show{opacity:1;transform:translateY(0)}
+@keyframes rise{from{opacity:0;transform:translateY(17px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media(max-width:850px){
+  .nav-links{gap:13px}
+  .nav-inner{padding:13px 20px}
+  .page{padding:27px 20px 55px}
+}
+@media(max-width:680px){
+  .nav-inner{flex-wrap:wrap;padding:12px 16px}
+  .menu-btn{display:block}
+  .nav-links{display:none;order:3;width:100%;padding:12px 0 5px;flex-direction:column;align-items:stretch;gap:0}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px;border-top:1px solid var(--border)}
+  .user-chip{display:none}
+  .page{padding:20px 15px 45px}
+  .hero{padding:23px;gap:12px}
+  .hero-avatar{width:65px;height:65px;border-radius:20px;font-size:27px}
+  .hero h1{font-size:27px}
+  .hero p{font-size:12px}
+  .panel{padding:16px}
+  .details-grid{grid-template-columns:1fr}
+  .booking-meta{grid-template-columns:1fr 1fr}
+  .booking-top{align-items:flex-start}
+  .saved-card{align-items:flex-start}
+  .saved-actions{flex-direction:column;align-items:stretch}
+  .danger-panel{align-items:flex-start;flex-direction:column}
+  .danger-panel>.btn{width:100%}
+  .section-heading h2{font-size:19px}
+}
+@media(max-width:390px){
+  .logo{font-size:20px}
+  .hero-avatar{width:53px;height:53px;font-size:22px;border-radius:16px}
+  .hero h1{font-size:23px}
+  .quick-nav a{padding:9px 10px;font-size:10px}
+  .booking-meta{grid-template-columns:1fr}
+  .booking-top{flex-direction:column}
+  .saved-card{flex-direction:column}
+  .saved-actions{flex-direction:row;width:100%}
+  .saved-actions .btn{flex:1}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+
+<body>
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+      <span>Eco<span>Trail</span></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="destinations.html">Destinations</a>
+    <a href="tripplanner.html">Trip Planner</a>
+    <a href="mapbooking.html">Booking by Map</a>
+    <a href="savedplaces.html">Saved Places</a>
+    <a href="community.html" class="active">Community</a>
+</nav>
+
+    <div class="nav-right">
+      <div class="user-chip">
+        <span class="avatar-small" id="navAvatar">E</span>
+        <span id="navName">Explorer</span>
+      </div>
+      <button class="btn btn-outline" id="logoutBtn" type="button">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+      <button class="menu-btn" id="menuToggle" type="button" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+  <section class="hero">
+    <div>
+      <div class="eyebrow"><i class="fa-solid fa-seedling"></i> Your EcoTrail account</div>
+      <h1>Welcome back, <span id="heroName">Explorer.</span></h1>
+      <p>Manage your personal details, bookings and favourite destinations in one place.</p>
+    </div>
+    <div class="hero-avatar" id="bigAvatar">E</div>
+  </section>
+
+  <nav class="quick-nav" aria-label="Profile sections">
+    <a href="#details"><i class="fa-regular fa-user"></i> My Details</a>
+    <a href="#bookings"><i class="fa-solid fa-suitcase-rolling"></i> My Bookings</a>
+    <a href="#saved"><i class="fa-regular fa-heart"></i> Saved Places</a>
+    <a href="#account"><i class="fa-solid fa-shield-halved"></i> Account</a>
+  </nav>
+
+  <section class="section" id="details">
+    <div class="section-heading">
+      <div>
+        <h2>My Details</h2>
+        <p>Your account information from registration.</p>
+      </div>
+      <div class="heading-icon"><i class="fa-regular fa-id-card"></i></div>
+    </div>
+    <div class="panel">
+      <div class="details-grid">
+        <div class="detail">
+          <div class="detail-label"><i class="fa-regular fa-user"></i> Full name</div>
+          <div class="detail-value" id="profileName">Explorer</div>
+          <div class="detail-note">Your registered EcoTrail name.</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label"><i class="fa-regular fa-envelope"></i> Email address</div>
+          <div class="detail-value" id="profileEmail">—</div>
+          <div class="detail-note">Your account's registered email address.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bookings">
+    <div class="section-heading">
+      <div>
+        <h2>My Bookings</h2>
+        <p>Review your booking requests and cancellation details.</p>
+      </div>
+      <span class="count-pill" id="bookingCount">0 bookings</span>
+    </div>
+
+    <div class="panel">
+      <div class="booking-list" id="bookingList"></div>
+      <div class="policy-note">
+        <i class="fa-solid fa-circle-info"></i>
+        <strong>Demo cancellation policy:</strong> cancelling a booking applies a
+        45% non-refundable charge and estimates the remaining 55% as a refund.
+        EcoTrail does not process real payments or refunds.
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="saved">
+    <div class="section-heading">
+      <div>
+        <h2>Saved Places</h2>
+        <p>Your favourite destinations saved from EcoTrail.</p>
+      </div>
+      <span class="count-pill" id="savedCount">0 saved</span>
+    </div>
+    <div class="panel">
+      <div class="saved-list" id="savedList"></div>
+    </div>
+  </section>
+
+  <section class="section" id="account">
+    <div class="section-heading">
+      <div>
+        <h2>Account Management</h2>
+        <p>Log out or permanently delete your local demo account.</p>
+      </div>
+      <div class="heading-icon"><i class="fa-solid fa-shield-halved"></i></div>
+    </div>
+
+    <div class="panel danger-panel">
+      <div class="danger-copy">
+        <div class="danger-icon"><i class="fa-solid fa-trash-can"></i></div>
+        <div>
+          <h3>Delete account permanently</h3>
+          <p>
+            This removes your account from this browser, along with its booking
+            history, saved places and saved trip plans. This action cannot be undone.
+          </p>
+        </div>
+      </div>
+      <button class="btn btn-danger" id="deleteAccountBtn" type="button">
+        <i class="fa-solid fa-trash-can"></i> Delete Account
+      </button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    EcoTrail <span>·</span> Explore gently. Leave a lasting good.
+    <span id="year"></span>
+  </footer>
+</main>
+
+<!-- Cancellation confirmation -->
+<div class="modal" id="cancelModal" role="dialog" aria-modal="true" aria-labelledby="cancelTitle">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <h2 id="cancelTitle">Cancel booking?</h2>
+        <p id="cancelDestination">Review the cancellation estimate before continuing.</p>
+      </div>
+      <button class="close-btn" type="button" data-close="cancelModal" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="refund-box">
+      <div class="refund-row"><span>Original booking amount</span><strong id="cancelAmount">₹0</strong></div>
+      <div class="refund-row"><span>Non-refundable charge (45%)</span><strong id="cancelFee">₹0</strong></div>
+      <div class="refund-row total"><span>Estimated refund (55%)</span><strong id="cancelRefund">₹0</strong></div>
+    </div>
+
+    <p class="detail-note">This is a frontend demo estimate only. No real payment or refund will be processed.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" type="button" data-close="cancelModal">Keep Booking</button>
+      <button class="btn btn-danger" type="button" id="confirmCancelBtn">Confirm Cancellation</button>
+    </div>
+  </div>
+</div>
+
+<!-- Permanent deletion -->
+<div class="modal" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <h2 id="deleteTitle">Delete your account?</h2>
+        <p>Enter your registered password to verify your identity.</p>
+      </div>
+      <button class="close-btn" type="button" data-close="deleteModal" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="error-message" id="deleteError" role="alert"></div>
+
+    <form id="deleteForm">
+      <div class="form-field">
+        <label for="deleteEmail">Registered email</label>
+        <input type="email" id="deleteEmail" readonly>
+      </div>
+
+      <div class="form-field">
+        <label for="deletePassword">Registered password</label>
+        <input type="password" id="deletePassword" autocomplete="current-password"
+               placeholder="Enter your password" required maxlength="128">
+      </div>
+
+      <label class="check-row">
+        <input type="checkbox" id="deleteConfirm" required>
+        <span>I understand that my account, bookings, saved places and saved trip plans will be permanently deleted from this browser.</span>
+      </label>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" type="button" data-close="deleteModal">Keep Account</button>
+        <button class="btn btn-danger" type="submit">
+          <i class="fa-solid fa-trash-can"></i> Delete Permanently
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+function readJSON(key, fallback = null) {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : JSON.parse(value);
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function writeJSON(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function normalizeEmail(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function getCurrentUser() {
+  try {
+    const value = JSON.parse(sessionStorage.getItem("ecotrailCurrentUser") || "null");
+    return value && value.email ? value : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+let user = getCurrentUser();
+
+if (!user) {
+  location.replace("login.html");
+  throw new Error("Please sign in to view your EcoTrail profile.");
+}
+
+const email = normalizeEmail(user.email);
+
+const KEYS = {
+  users: "ecotrailUsers",
+  bookings: "ecotrailBookings_" + email,
+  saved: "ecotrailSavedPlaces_" + email,
+  trips: "ecotrailTrips_" + email
+};
+
+let pendingCancelIndex = null;
+let toastTimer = null;
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
+}
+
+function getName() {
+  return String(user.name || "Explorer").trim() || "Explorer";
+}
+
+function initial() {
+  return getName().charAt(0).toUpperCase() || "E";
+}
+
+function money(value) {
+  const amount = Number(value || 0);
+  return Number.isFinite(amount)
+    ? amount.toLocaleString("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 2
+      })
+    : "₹0";
+}
+
+function dateText(value) {
+  if (!value) return "Not specified";
+
+  const date = new Date(
+    String(value).length === 10 ? value + "T00:00:00" : value
+  );
+
+  return Number.isNaN(date.getTime())
+    ? String(value)
+    : date.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      });
+}
+
+function getBookings() {
+  const list = readJSON(KEYS.bookings, []);
+  return Array.isArray(list) ? list : [];
+}
+
+function getSavedPlaces() {
+  const list = readJSON(KEYS.saved, []);
+  return Array.isArray(list) ? list : [];
+}
+
+function getBookingId(booking, index) {
+  return String(booking.id || booking.bookingId || booking.reference || ("BOOK-" + (index + 1)));
+}
+
+function getDestination(booking) {
+  return booking.destination || booking.destinationName ||
+    booking.place || booking.title || "EcoTrail destination";
+}
+
+function getStatus(booking) {
+  return String(booking.status || "Booked");
+}
+
+function isCancelled(booking) {
+  return /cancel/i.test(getStatus(booking));
+}
+
+function getTotal(booking) {
+  const candidates = [
+    booking.priceBreakdown && booking.priceBreakdown.total,
+    booking.total,
+    booking.totalPrice,
+    booking.amount,
+    booking.price
+  ];
+
+  for (const value of candidates) {
+    if (value !== undefined && value !== null && value !== "" &&
+        Number.isFinite(Number(value))) {
+      return Math.max(0, Number(value));
+    }
+  }
+  return 0;
+}
+
+function showToast(message) {
+  $("toast").textContent = message;
+  $("toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $("toast").classList.remove("show"), 3000);
+}
+
+function openModal(id) {
+  $(id).classList.add("show");
+}
+
+function closeModal(id) {
+  $(id).classList.remove("show");
+}
+
+document.querySelectorAll("[data-close]").forEach(button => {
+  button.addEventListener("click", () => closeModal(button.dataset.close));
+});
+
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", event => {
+    if (event.target === modal) closeModal(modal.id);
+  });
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    document.querySelectorAll(".modal.show").forEach(modal => closeModal(modal.id));
+  }
+});
+
+/* Navigation */
+$("menuToggle").addEventListener("click", () => {
+  const nav = $("navLinks");
+  const isOpen = nav.classList.toggle("open");
+  $("menuToggle").innerHTML = isOpen
+    ? '<i class="fa-solid fa-xmark"></i>'
+    : '<i class="fa-solid fa-bars"></i>';
+});
+
+/* Profile details */
+function renderProfile() {
+  const name = getName();
+
+  $("navName").textContent = name;
+  $("navAvatar").textContent = initial();
+  $("bigAvatar").textContent = initial();
+  $("profileName").textContent = name;
+  $("profileEmail").textContent = email;
+  $("heroName").textContent = name + ".";
+  $("deleteEmail").value = email;
+  $("year").textContent = new Date().getFullYear();
+
+  renderBookings();
+  renderSavedPlaces();
+}
+
+/* Booking history */
+function renderBookings() {
+  const list = getBookings();
+  $("bookingCount").textContent = list.length + (list.length === 1 ? " booking" : " bookings");
+
+  if (!list.length) {
+    $("bookingList").innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-suitcase-rolling"></i>
+        <h3>No bookings yet</h3>
+        <p>Your booking requests will appear here after you book a destination.</p>
+        <a href="destinations.html" class="btn btn-primary">
+          <i class="fa-solid fa-compass"></i> Explore Destinations
+        </a>
+      </div>`;
+    return;
+  }
+
+  $("bookingList").innerHTML = list.map((booking, index) => {
+    const destination = getDestination(booking);
+    const cancelled = isCancelled(booking);
+    const statusClass = cancelled ? "cancelled" : "active";
+    const amount = getTotal(booking);
+    const startDate = booking.startDate || booking.travelDate ||
+      booking.checkIn || booking.date;
+    const endDate = booking.endDate || booking.checkOut;
+    const travellers = booking.travellers ?? booking.travelers ??
+      booking.numberOfTravellers ?? booking.guests ?? "Not specified";
+
+    return `
+      <article class="booking-card">
+        <div class="booking-top">
+          <div>
+            <div class="booking-name">${escapeHTML(destination)}</div>
+            <div class="booking-ref">Reference: ${escapeHTML(getBookingId(booking, index))}</div>
+          </div>
+          <span class="status ${statusClass}">${escapeHTML(getStatus(booking))}</span>
+        </div>
+
+        <div class="booking-meta">
+          <div>
+            <div class="meta-label">Departure</div>
+            <div class="meta-value">${escapeHTML(dateText(startDate))}</div>
+          </div>
+          <div>
+            <div class="meta-label">Return</div>
+            <div class="meta-value">${escapeHTML(dateText(endDate))}</div>
+          </div>
+          <div>
+            <div class="meta-label">Estimated total</div>
+            <div class="meta-value booking-price">${escapeHTML(money(amount))}</div>
+          </div>
+          <div>
+            <div class="meta-label">Travellers</div>
+            <div class="meta-value">${escapeHTML(travellers)}</div>
+          </div>
+          <div>
+            <div class="meta-label">Booking created</div>
+            <div class="meta-value">${escapeHTML(dateText(booking.createdAt))}</div>
+          </div>
+          ${cancelled ? `
+          <div>
+            <div class="meta-label">Estimated refund</div>
+            <div class="meta-value booking-price">${escapeHTML(money(
+              booking.estimatedRefund ?? amount * 0.55
+            ))}</div>
+          </div>` : ""}
+        </div>
+
+        ${cancelled ? `
+          <div class="policy-note">
+            <strong>Cancelled:</strong> 45% non-refundable charge:
+            ${escapeHTML(money(booking.cancellationFee ?? amount * 0.45))}.
+            Estimated refund: ${escapeHTML(money(booking.estimatedRefund ?? amount * 0.55))}.
+          </div>
+        ` : `
+          <div class="booking-actions">
+            <button type="button" class="btn btn-danger" data-action="cancel" data-index="${index}">
+              <i class="fa-solid fa-ban"></i> Cancel Booking
+            </button>
+          </div>
+        `}
+      </article>`;
+  }).join("");
+}
+
+/* Cancellation */
+$("bookingList").addEventListener("click", event => {
+  const button = event.target.closest("[data-action='cancel']");
+  if (!button) return;
+
+  const index = Number(button.dataset.index);
+  const list = getBookings();
+  const booking = list[index];
+
+  if (!booking || isCancelled(booking)) return;
+
+  pendingCancelIndex = index;
+  const amount = getTotal(booking);
+
+  $("cancelDestination").textContent =
+    "Destination: " + getDestination(booking);
+  $("cancelAmount").textContent = money(amount);
+  $("cancelFee").textContent = money(amount * 0.45);
+  $("cancelRefund").textContent = money(amount * 0.55);
+
+  openModal("cancelModal");
+});
+
+$("confirmCancelBtn").addEventListener("click", () => {
+  if (pendingCancelIndex === null) return;
+
+  try {
+    const list = getBookings();
+    const booking = list[pendingCancelIndex];
+
+    if (!booking || isCancelled(booking)) {
+      closeModal("cancelModal");
+      pendingCancelIndex = null;
+      renderBookings();
+      return;
+    }
+
+    const amount = getTotal(booking);
+
+    booking.status = "Cancelled";
+    booking.cancelledAt = new Date().toISOString();
+    booking.cancellationPolicy = "45% non-refundable; estimated 55% refund";
+    booking.cancellationFee = Math.round(amount * 0.45 * 100) / 100;
+    booking.estimatedRefund = Math.round(amount * 0.55 * 100) / 100;
+
+    writeJSON(KEYS.bookings, list);
+
+    closeModal("cancelModal");
+    pendingCancelIndex = null;
+    renderBookings();
+    showToast("Booking cancelled. The estimate is saved in your history.");
+  } catch (error) {
+    showToast("Could not save the cancellation. Please try again.");
+  }
+});
+
+/* Saved places */
+function getPlaceName(place) {
+  return typeof place === "string"
+    ? place
+    : place.name || place.destination || place.title ||
+      place.destinationName || "Saved destination";
+}
+
+function getPlaceLocation(place) {
+  if (!place || typeof place !== "object") return "";
+  return place.country || place.region || place.location ||
+    place.state || place.description || "";
+}
+
+function renderSavedPlaces() {
+  const places = getSavedPlaces();
+
+  $("savedCount").textContent = places.length +
+    (places.length === 1 ? " saved" : " saved");
+
+  if (!places.length) {
+    $("savedList").innerHTML = `
+      <div class="empty-state">
+        <i class="fa-regular fa-heart"></i>
+        <h3>No saved places yet</h3>
+        <p>Save your favourite destinations and they will appear here.</p>
+        <a href="destinations.html" class="btn btn-primary">
+          <i class="fa-solid fa-compass"></i> Browse Destinations
+        </a>
+      </div>`;
+    return;
+  }
+
+  $("savedList").innerHTML = places.map((place, index) => {
+    const name = getPlaceName(place);
+    const location = getPlaceLocation(place);
+
+    return `
+      <article class="saved-card">
+        <div class="saved-left">
+          <div class="saved-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div>
+            <div class="saved-name">${escapeHTML(name)}</div>
+            <div class="saved-location">${escapeHTML(location || "Saved destination")}</div>
+          </div>
+        </div>
+        <div class="saved-actions">
+          <a class="btn btn-outline" href="destinations.html">
+            <i class="fa-solid fa-compass"></i> Explore
+          </a>
+          <button class="btn btn-danger" type="button" data-remove-saved="${index}">
+            <i class="fa-solid fa-heart-crack"></i> Remove
+          </button>
+        </div>
+      </article>`;
+  }).join("");
+}
+
+$("savedList").addEventListener("click", event => {
+  const button = event.target.closest("[data-remove-saved]");
+  if (!button) return;
+
+  const index = Number(button.dataset.removeSaved);
+
+  try {
+    const places = getSavedPlaces();
+    if (index < 0 || index >= places.length) return;
+
+    const removed = getPlaceName(places[index]);
+    places.splice(index, 1);
+    writeJSON(KEYS.saved, places);
+
+    renderSavedPlaces();
+    showToast(removed + " removed from Saved Places.");
+  } catch (error) {
+    showToast("Could not update Saved Places. Please try again.");
+  }
+});
+
+/* Logout */
+$("logoutBtn").addEventListener("click", () => {
+  sessionStorage.removeItem("ecotrailCurrentUser");
+  location.replace("login.html");
+});
+
+/* Permanent account deletion */
+$("deleteAccountBtn").addEventListener("click", () => {
+  $("deletePassword").value = "";
+  $("deleteConfirm").checked = false;
+  $("deleteError").textContent = "";
+  $("deleteError").classList.remove("show");
+  openModal("deleteModal");
+  setTimeout(() => $("deletePassword").focus(), 50);
+});
+
+$("deleteForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const errorBox = $("deleteError");
+  errorBox.textContent = "";
+  errorBox.classList.remove("show");
+
+  function showDeleteError(message) {
+    errorBox.textContent = message;
+    errorBox.classList.add("show");
+  }
+
+  if (!$("deleteConfirm").checked) {
+    showDeleteError("Please confirm that you understand this action cannot be undone.");
+    return;
+  }
+
+  const password = $("deletePassword").value;
+
+  let users;
+  try {
+    users = readJSON(KEYS.users, null);
+  } catch (error) {
+    users = null;
+  }
+
+  if (!Array.isArray(users)) {
+    showDeleteError("Could not read registered accounts. Nothing was deleted.");
+    return;
+  }
+
+  const index = users.findIndex(account =>
+    account && normalizeEmail(account.email) === email
+  );
+
+  if (index < 0) {
+    showDeleteError("The registered account was not found. Nothing was deleted.");
+    return;
+  }
+
+  const account = users[index];
+  const storedPassword = account.password ?? account.pass ?? account.userPassword;
+
+  if (typeof storedPassword !== "string" || storedPassword !== password) {
+    showDeleteError("Incorrect password. Your account has not been deleted.");
+    return;
+  }
+
+  const confirmed = window.confirm(
+    "FINAL CONFIRMATION\n\nPermanently delete your EcoTrail account, booking history, saved places and saved trip plans from this browser?"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    /* Remove only this user's account. */
+    users.splice(index, 1);
+    writeJSON(KEYS.users, users);
+
+    /* Remove this user's personal demo data. */
+    [
+      KEYS.bookings,
+      KEYS.saved,
+      KEYS.trips,
+      "ecotrailSelectedDestination_" + email
+    ].forEach(key => localStorage.removeItem(key));
+
+    /* Remove the active session and associated session data. */
+    sessionStorage.removeItem("ecotrailCurrentUser");
+    sessionStorage.removeItem("ecotrailSelectedDestination");
+    sessionStorage.removeItem("ecotrailSelectedDestinationDetails");
+
+    closeModal("deleteModal");
+    window.alert("Your EcoTrail demo account has been deleted from this browser.");
+    location.replace("index.html");
+  } catch (error) {
+    showDeleteError(
+      "The browser could not complete account deletion. Please check your storage settings."
+    );
+  }
+});
+
+/* Initial render */
+renderProfile();
+</script>
+
+<footer class="ecotrail-footer">
+  <style>
+    .ecotrail-footer {
+      --footer-bg: #10251b;
+      --footer-surface: #173528;
+      --footer-lime: #c7e86c;
+      --footer-cream: #f4f3e8;
+      --footer-muted: #b8c8bd;
+
+      background: linear-gradient(
+        135deg,
+        #0b1c14 0%,
+        #10251b 55%,
+        #163526 100%
+      );
+      color: var(--footer-cream);
+      padding: 55px 7% 22px;
+      margin-top: 70px;
+      border-top: 1px solid rgba(199, 232, 108, 0.25);
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      box-sizing: border-box;
+    }
+
+    .ecotrail-footer *,
+    .ecotrail-footer *::before,
+    .ecotrail-footer *::after {
+      box-sizing: border-box;
+    }
+
+    .ecotrail-footer::before {
+      content: "";
+      position: absolute;
+      top: -130px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
+      background: rgba(199, 232, 108, 0.08);
+      filter: blur(75px);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .ecotrail-footer::after {
+      content: "";
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 280px;
+      height: 280px;
+      background: rgba(64, 128, 83, 0.12);
+      filter: blur(75px);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .ecotrail-footer .footer-container {
+      max-width: 1250px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .ecotrail-footer .footer-main {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+    }
+
+    .ecotrail-footer .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--footer-cream);
+      text-decoration: none;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      transition: transform 0.3s ease;
+    }
+
+    .ecotrail-footer .footer-logo:hover {
+      transform: translateY(-3px);
+    }
+
+    .ecotrail-footer .footer-logo-icon {
+      font-size: 29px;
+    }
+
+    .ecotrail-footer .footer-logo-name span {
+      color: var(--footer-lime);
+    }
+
+    .ecotrail-footer .footer-brand > p {
+      max-width: 330px;
+      color: var(--footer-muted);
+      line-height: 1.8;
+      font-size: 14px;
+      margin: 18px 0 22px;
+    }
+
+    .ecotrail-footer .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 13px;
+    }
+
+    .ecotrail-footer .footer-links h3 {
+      color: var(--footer-lime);
+      font-size: 15px;
+      margin: 5px 0 9px;
+      font-weight: 750;
+    }
+
+    .ecotrail-footer .footer-links a {
+      color: var(--footer-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .ecotrail-footer .footer-links a:hover {
+      color: var(--footer-lime);
+      transform: translateX(5px);
+    }
+
+    .ecotrail-footer .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(244, 243, 232, 0.13);
+    }
+
+    .ecotrail-footer .footer-bottom p {
+      color: var(--footer-muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .ecotrail-footer .footer-back-top {
+      display: inline-block;
+      color: var(--footer-lime);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .ecotrail-footer .footer-back-top:hover {
+      color: var(--footer-cream);
+      transform: translateY(-3px);
+    }
+
+    .ecotrail-footer a:focus-visible {
+      outline: 2px solid var(--footer-lime);
+      outline-offset: 5px;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .ecotrail-footer .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 35px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .ecotrail-footer {
+        padding: 42px 6% 20px;
+        margin-top: 45px;
+      }
+
+      .ecotrail-footer .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 30px 18px;
+      }
+
+      .ecotrail-footer .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+      .ecotrail-footer .footer-logo {
+        font-size: 24px;
+      }
+
+      .ecotrail-footer .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .ecotrail-footer .footer-links a {
+        font-size: 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ecotrail-footer *,
+      .ecotrail-footer *::before,
+      .ecotrail-footer *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <div class="footer-container">
+    <div class="footer-main">
+
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <span class="footer-logo-icon">🌿</span>
+          <span class="footer-logo-name">Eco<span>Trail</span></span>
+        </a>
+
+        <p>
+          Explore the world responsibly. Discover beautiful destinations,
+          plan meaningful journeys, and leave a lighter footprint.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h3>Explore</h3>
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="tripplanner.html">Trip Planner</a>
+        <a href="mapbooking.html">Map &amp; Booking</a>
+      </div>
+
+      <div class="footer-links">
+        <h3>Your EcoTrail</h3>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="savedplaces.html">Saved Places</a>
+        <a href="community.html">Community</a>
+        <a href="profile.html">My Profile</a>
+      </div>
+
+      <div class="footer-links">
+        <h3>About Us</h3>
+        <a href="about.html">About EcoTrail</a>
+        <a href="about.html#team">Our Team</a>
+        <a href="about.html#sustainability">Sustainability</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        © <span class="footer-year"></span> EcoTrail.
+        Made for a greener tomorrow.
+      </p>
+
+      <a href="#" class="footer-back-top">Back to top ↑</a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const footer = document.currentScript.closest(".ecotrail-footer");
+      if (!footer) return;
+
+      const year = footer.querySelector(".footer-year");
+      if (year) {
+        year.textContent = new Date().getFullYear();
+      }
+
+      const backToTop = footer.querySelector(".footer-back-top");
+      if (backToTop) {
+        backToTop.addEventListener("click", function (event) {
+          event.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        });
+      }
+    })();
+  </script>
+</footer>
+
+</body>
+</html>

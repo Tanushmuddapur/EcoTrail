@@ -1,0 +1,1715 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10251b">
+<title>Booking by Map | EcoTrail</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+:root{
+  --forest:#10251b;
+  --forest2:#193729;
+  --forest3:#254a36;
+  --lime:#c7e86c;
+  --cream:#f7f5eb;
+  --muted:#a5b4a8;
+  --border:rgba(255,255,255,.12);
+  --glass:rgba(255,255,255,.055);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+  min-height:100vh;
+  background:var(--forest);
+  color:var(--cream);
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+}
+
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--lime);
+  outline-offset:3px;
+}
+
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#10251bf2;
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+
+.nav-inner{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font:800 23px Manrope,sans-serif;
+  letter-spacing:-1px;
+  white-space:nowrap;
+}
+
+.logo-icon{
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  background:var(--lime);
+  color:var(--forest);
+  display:grid;
+  place-items:center;
+  transform:rotate(-5deg);
+  transition:.3s;
+}
+
+.logo:hover .logo-icon{
+  transform:rotate(7deg) scale(1.08);
+  box-shadow:0 0 22px #c7e86c44;
+}
+
+.logo-text span{color:var(--lime)}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  font-size:12px;
+  color:#c5d0c6;
+}
+
+.nav-links a{transition:color .2s}
+
+.nav-links a:hover,.nav-links a.active{color:var(--lime)}
+
+.nav-actions{display:flex;align-items:center;gap:10px}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  padding:12px 17px;
+  border:1px solid transparent;
+  border-radius:11px;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .25s,box-shadow .25s,background .25s,border-color .25s;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 23px #0003;
+}
+
+.btn-primary{background:var(--lime);color:var(--forest)}
+.btn-primary:hover{background:#d9f68b;box-shadow:0 10px 25px #c7e86c20}
+.btn-outline{background:#ffffff06;border-color:var(--border);color:var(--cream)}
+.btn-outline:hover{border-color:var(--lime);color:var(--lime)}
+
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+.menu-btn{
+  display:none;
+  padding:10px 12px;
+  background:var(--glass);
+  color:var(--cream);
+  border:1px solid var(--border);
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* Hero */
+
+.hero{
+  padding:45px 25px 30px;
+  background:radial-gradient(ellipse at 85% 0%,#c7e86c17,transparent 42%);
+}
+
+.hero-inner{max-width:1150px;margin:auto}
+
+.eyebrow{
+  color:var(--lime);
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:13px;
+}
+
+.hero h1{
+  font:800 clamp(30px,4.5vw,48px) Manrope,sans-serif;
+  letter-spacing:-1.8px;
+}
+
+.hero h1 span{color:var(--lime)}
+
+.hero p{
+  max-width:650px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.9;
+  margin-top:13px;
+}
+
+.steps{display:flex;gap:10px;flex-wrap:wrap;margin-top:23px}
+
+.step{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:9px 12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--glass);
+  font-size:11px;
+  color:#d1dbd2;
+}
+
+.step b{
+  display:grid;
+  place-items:center;
+  width:23px;
+  height:23px;
+  border-radius:50%;
+  background:var(--lime);
+  color:var(--forest);
+  font-size:10px;
+}
+
+/* Shared sections */
+
+.main{max-width:1150px;margin:0 auto;padding:0 25px 60px}
+
+.section-heading{margin:30px 0 18px}
+
+.section-heading .eyebrow{margin-bottom:8px}
+
+.section-heading h2{
+  font:800 clamp(22px,3vw,29px) Manrope,sans-serif;
+  letter-spacing:-.7px;
+}
+
+.section-heading p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+  margin-top:8px;
+}
+
+.panel{
+  border:1px solid var(--border);
+  border-radius:19px;
+  background:var(--glass);
+  padding:20px;
+  min-width:0;
+  transition:border-color .25s,box-shadow .25s;
+}
+
+.panel:hover{
+  border-color:#c7e86c32;
+  box-shadow:0 12px 30px #0002;
+}
+
+.panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.panel-head h2{font:800 17px Manrope,sans-serif}
+
+.panel-head p{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:5px;
+  line-height:1.7;
+}
+
+.pill{
+  white-space:nowrap;
+  border:1px solid #c7e86c36;
+  background:#c7e86c0c;
+  border-radius:30px;
+  padding:7px 10px;
+  color:var(--lime);
+  font-size:10px;
+  font-weight:700;
+}
+
+/* Search and filters */
+
+.filter-panel{
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:var(--glass);
+  padding:16px;
+  margin-bottom:18px;
+}
+
+.toolbar{
+  display:grid;
+  grid-template-columns:minmax(200px,1fr) 180px 180px;
+  gap:11px;
+}
+
+.search-wrap{position:relative}
+
+.search-wrap i{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--lime);
+  pointer-events:none;
+}
+
+input,select{
+  width:100%;
+  min-width:0;
+  height:45px;
+  padding:0 12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#142b1e;
+  color:var(--cream);
+  font-size:12px;
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+
+.search-wrap input{padding-left:39px}
+
+input::placeholder{color:#819285}
+
+select:focus,input:focus{
+  border-color:var(--lime);
+  box-shadow:0 0 0 3px #c7e86c12;
+}
+
+option{background:var(--forest2);color:var(--cream)}
+
+.category-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:15px;
+}
+
+.category-btn{
+  padding:9px 13px;
+  border:1px solid var(--border);
+  border-radius:30px;
+  background:#ffffff05;
+  color:#d1dbd2;
+  font-size:11px;
+  cursor:pointer;
+  transition:all .25s;
+}
+
+.category-btn:hover{
+  border-color:var(--lime);
+  color:var(--lime);
+  transform:translateY(-2px);
+}
+
+.category-btn.active{
+  background:var(--lime);
+  border-color:var(--lime);
+  color:var(--forest);
+  font-weight:800;
+}
+
+.results-bar{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:11px;
+  margin:20px 0 14px;
+}
+
+.results-bar strong{color:var(--lime)}
+
+/* Map */
+
+.map-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(280px,.8fr);
+  gap:20px;
+  align-items:start;
+}
+
+#map{
+  height:460px;
+  width:100%;
+  border-radius:13px;
+  border:1px solid var(--border);
+  background:#dfe8dc;
+  z-index:1;
+}
+
+.map-hint{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  padding:12px 13px;
+  margin-top:13px;
+  border-radius:11px;
+  background:#c7e86c09;
+  border:1px solid #c7e86c22;
+  color:#c5d2c7;
+  font-size:11px;
+  line-height:1.8;
+}
+
+.map-hint i{color:var(--lime);margin-top:3px}
+
+.side{display:grid;gap:16px}
+
+.destination-card{
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:#ffffff03;
+  transition:border-color .25s,box-shadow .25s,transform .25s;
+}
+
+.destination-card:hover{
+  border-color:#c7e86c55;
+  box-shadow:0 12px 27px #0003;
+  transform:translateY(-3px);
+}
+
+.destination-image{
+  height:175px;
+  position:relative;
+  overflow:hidden;
+  background:var(--forest3);
+}
+
+.destination-image img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  transition:transform .5s;
+}
+
+.destination-card:hover .destination-image img{transform:scale(1.06)}
+
+.image-fallback{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#1b2d22,#344b37);
+  color:var(--lime);
+  font-size:38px;
+}
+
+.card-tag{
+  position:absolute;
+  top:12px;
+  left:12px;
+  padding:7px 10px;
+  border-radius:30px;
+  background:#10251be8;
+  border:1px solid #ffffff30;
+  color:var(--lime);
+  font-size:10px;
+  font-weight:700;
+  backdrop-filter:blur(8px);
+}
+
+.save-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border:1px solid #ffffff55;
+  border-radius:50%;
+  background:#10251bdc;
+  color:var(--cream);
+  font-size:18px;
+  cursor:pointer;
+  transition:transform .2s,background .2s,color .2s;
+}
+
+.save-btn:hover{transform:scale(1.12);background:var(--lime);color:var(--forest)}
+.save-btn.saved{color:var(--lime)}
+
+.destination-content{padding:16px}
+
+.destination-content h3{font:800 20px Manrope,sans-serif}
+
+.destination-location{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:var(--lime);
+  font-size:10px;
+  margin-top:7px;
+}
+
+.destination-content p{
+  font-size:11px;
+  line-height:1.8;
+  color:var(--muted);
+  margin-top:9px;
+}
+
+.destination-details{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+
+.detail-tag{
+  font-size:10px;
+  padding:7px 9px;
+  border-radius:8px;
+  background:#ffffff07;
+  border:1px solid var(--border);
+  color:#d2ddd3;
+}
+
+.detail-tag i{color:var(--lime);margin-right:5px}
+
+.card-actions{
+  display:flex;
+  gap:9px;
+  margin-top:15px;
+}
+
+.card-actions .btn{flex:1;padding:10px 8px;font-size:10px}
+
+.select-label{
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  margin:18px 0 8px;
+}
+
+.full{width:100%;margin-top:15px}
+
+.note{
+  font-size:10px;
+  color:var(--muted);
+  line-height:1.8;
+  margin-top:12px;
+}
+
+.empty-selection{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.9;
+  padding:18px 0;
+}
+
+.status-message{
+  display:none;
+  margin-top:12px;
+  padding:11px 12px;
+  border-radius:10px;
+  background:#ff9d9d0d;
+  border:1px solid #ff9d9d35;
+  color:#ffb5b5;
+  font-size:11px;
+  line-height:1.7;
+}
+
+.status-message.show{display:block}
+
+.selected-image{
+  width:100%;
+  height:145px;
+  object-fit:cover;
+  display:block;
+}
+
+.map-popup-btn{
+  margin-top:7px;
+  background:#c7e86c;
+  color:#10251b;
+  border:0;
+  padding:7px 10px;
+  border-radius:7px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{
+  background:#193729;
+  color:#f7f5eb;
+}
+
+.leaflet-popup-content{
+  font-family:'DM Sans',sans-serif;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.leaflet-container a.leaflet-popup-close-button{color:#f7f5eb}
+
+/* Destination cards grid */
+
+.destination-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.destination-grid .destination-card{
+  animation:cardIn .45s both;
+}
+
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.no-results{
+  display:none;
+  text-align:center;
+  padding:35px 15px;
+  border:1px dashed var(--border);
+  border-radius:15px;
+  color:var(--muted);
+  margin-top:12px;
+}
+
+.no-results i{font-size:27px;color:var(--lime);margin-bottom:12px}
+.no-results h3{color:var(--cream);margin-bottom:8px}
+.no-results p{font-size:12px;line-height:1.8}
+
+.footer{
+  max-width:1150px;
+  margin:auto;
+  padding:0 25px 25px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  color:#829286;
+  font-size:10px;
+}
+
+.footer span{color:var(--lime)}
+
+@media(max-width:1000px){
+  .nav-links{gap:11px;font-size:11px}
+  .nav-actions>.btn{padding:10px;font-size:10px}
+  .destination-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .map-layout{grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr)}
+}
+
+@media(max-width:760px){
+  .nav-inner{flex-wrap:wrap;padding:12px 16px}
+  .menu-btn{display:block}
+  .nav-links{
+    display:none;
+    order:4;
+    width:100%;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    padding:8px 0;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px;border-top:1px solid var(--border)}
+  .nav-actions{margin-left:auto}
+  .hero{padding:32px 17px 25px}
+  .main{padding:0 15px 45px}
+  .toolbar{grid-template-columns:1fr 1fr}
+  .search-wrap{grid-column:1/-1}
+  .map-layout{grid-template-columns:1fr}
+  #map{height:390px}
+  .footer{padding:0 15px 22px}
+}
+
+@media(max-width:480px){
+  .logo{font-size:20px}
+  .nav-actions>.btn{padding:9px;font-size:10px}
+  .hero h1{font-size:30px}
+  .steps{gap:7px}
+  .step{font-size:10px;padding:8px}
+  .toolbar{grid-template-columns:1fr}
+  .search-wrap{grid-column:auto}
+  .destination-grid{grid-template-columns:1fr}
+  .panel{padding:14px}
+  #map{height:340px}
+  .results-bar{flex-direction:column}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="dashboard.html" class="logo">
+      <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+      <span class="logo-text">Eco<span>Trail.</span></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="destinations.html">Destinations</a>
+    <a href="tripplanner.html">Trip Planner</a>
+    <a href="mapbooking.html">Booking by Map</a>
+    <a href="savedplaces.html">Saved Places</a>
+    <a href="community.html" class="active">Community</a>
+</nav>
+
+    <div class="nav-actions">
+      <a href="book.html" class="btn btn-outline">
+        <i class="fa-solid fa-ticket"></i> Book directly
+      </a>
+      <button class="menu-btn" id="menuToggle" type="button"
+        aria-label="Toggle navigation" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">
+      <i class="fa-solid fa-location-dot"></i> Discover by location
+    </div>
+
+    <h1>Choose your destination<br>on the <span>map.</span></h1>
+
+    <p>
+      Explore nature destinations on the interactive map. Search and filter
+      destinations, view their photographs, select a map marker, and continue
+      to your booking.
+    </p>
+
+    <div class="steps">
+      <div class="step"><b>1</b> Explore the map</div>
+      <div class="step"><b>2</b> Select a destination</div>
+      <div class="step"><b>3</b> Complete your booking</div>
+    </div>
+  </div>
+</section>
+
+<main class="main">
+
+  <!-- Search and filters -->
+  <section class="filter-panel" aria-label="Destination filters">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="searchInput" type="search"
+          placeholder="Search destination or location..."
+          aria-label="Search destinations">
+      </div>
+
+      <select id="regionFilter" aria-label="Filter by region">
+        <option value="all">All regions</option>
+        <option value="karnataka">Karnataka</option>
+        <option value="kerala">Kerala</option>
+        <option value="uttarakhand">Uttarakhand</option>
+      </select>
+
+      <select id="sortFilter" aria-label="Sort destinations">
+        <option value="default">Featured first</option>
+        <option value="name">Name: A to Z</option>
+      </select>
+    </div>
+
+    <div class="category-row" aria-label="Filter by experience">
+      <button class="category-btn active" data-category="all">All experiences</button>
+      <button class="category-btn" data-category="forest">
+        <i class="fa-solid fa-tree"></i> Forests
+      </button>
+      <button class="category-btn" data-category="mountain">
+        <i class="fa-solid fa-mountain"></i> Mountains
+      </button>
+      <button class="category-btn" data-category="waterfall">
+        <i class="fa-solid fa-water"></i> Waterfalls
+      </button>
+      <button class="category-btn" data-category="wildlife">
+        <i class="fa-solid fa-paw"></i> Wildlife
+      </button>
+    </div>
+  </section>
+
+  <!-- Map -->
+  <div class="section-heading">
+    <div class="eyebrow">Explore by location</div>
+    <h2>Find your next escape.</h2>
+    <p>Choose a marker or select a destination card to view its location.</p>
+  </div>
+
+  <div class="results-bar">
+    <span><strong id="resultCount">6</strong> destinations to explore</span>
+    <span><i class="fa-solid fa-leaf"></i> Curated for thoughtful travel</span>
+  </div>
+
+  <div class="map-layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2><i class="fa-solid fa-map" style="color:var(--lime);margin-right:8px"></i>Interactive destination map</h2>
+          <p>Select a green marker to explore a destination.</p>
+        </div>
+        <span class="pill"><i class="fa-solid fa-location-dot"></i>
+          <span id="markerCount">6</span> locations
+        </span>
+      </div>
+
+      <div id="map" aria-label="Interactive destination map"></div>
+
+      <div class="map-hint">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>
+          Click a marker to select a destination. Map tiles are provided by
+          OpenStreetMap through Leaflet and require an internet connection.
+        </span>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Your selection</h2>
+            <p id="selectionHint">Choose a destination to get started.</p>
+          </div>
+          <div style="color:var(--lime);font-size:20px">
+            <i class="fa-solid fa-compass"></i>
+          </div>
+        </div>
+
+        <div id="emptySelection" class="empty-selection">
+          <i class="fa-solid fa-map-location-dot"
+            style="font-size:27px;color:var(--lime);display:block;margin-bottom:12px"></i>
+          No destination selected yet. Click a marker or choose a card below.
+        </div>
+
+        <div id="selectedCard" class="destination-card" hidden>
+          <div class="destination-image">
+            <img id="selectedImage" class="selected-image" src="" alt="">
+            <span id="selectedTag" class="card-tag"></span>
+          </div>
+          <div class="destination-content">
+            <h3 id="selectedName">Destination</h3>
+            <div class="destination-location">
+              <i class="fa-solid fa-location-dot"></i>
+              <span id="selectedRegion"></span>
+            </div>
+            <p id="selectedDescription"></p>
+            <div class="destination-details">
+              <span class="detail-tag">
+                <i class="fa-solid fa-leaf"></i>
+                <span id="selectedEco"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <label class="select-label" for="destinationSelect">Or choose from the list</label>
+        <select id="destinationSelect">
+          <option value="">Select a destination</option>
+        </select>
+
+        <button class="btn btn-primary full" id="bookButton" type="button" disabled>
+          Continue to Booking <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+        <div id="statusMessage" class="status-message" role="alert"></div>
+
+        <p class="note">
+          Your destination will be carried into the existing booking form.
+          You can review travel dates, travellers and estimated cost on the next page.
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>How it works</h2>
+            <p>Three simple steps to your next escape.</p>
+          </div>
+        </div>
+
+        <p class="note" style="margin-top:0">
+          <strong style="color:var(--cream)">01 · Explore</strong><br>
+          Move around the map and inspect the destination markers.<br><br>
+
+          <strong style="color:var(--cream)">02 · Select</strong><br>
+          Click a marker, select a card or use the dropdown.<br><br>
+
+          <strong style="color:var(--cream)">03 · Book</strong><br>
+          Continue to the booking form to enter your trip details.
+        </p>
+      </section>
+    </aside>
+  </div>
+
+  <!-- Destination cards -->
+  <div class="section-heading">
+    <div class="eyebrow">The destination collection</div>
+    <h2>Explore all destinations.</h2>
+    <p>Discover forests, mountain trails, waterfalls and wildlife destinations.</p>
+  </div>
+
+  <section class="destination-grid" id="destinationGrid"
+    aria-label="Available destinations"></section>
+
+  <div class="no-results" id="noResults">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <h3>No destinations found</h3>
+    <p>Try another search or change your filters.</p>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div>EcoTrail <span>·</span> Explore gently. Leave a lasting good.</div>
+  <div>© <span id="year"></span> EcoTrail</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+"use strict";
+
+/* All six destinations match destinations.html */
+const destinations = [
+  {
+    id:"coorg",
+    name:"Coorg",
+    location:"Karnataka, India",
+    region:"karnataka",
+    category:"forest",
+    tag:"Coffee & forests",
+    description:"Explore misty hills, coffee-growing landscapes, and forest-side experiences.",
+    eco:"Nature escape",
+    lat:12.3375,
+    lng:75.8069,
+    image:"https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=80",
+    icon:"fa-mountain-sun"
+  },
+  {
+    id:"chikmagalur",
+    name:"Chikmagalur",
+    location:"Karnataka, India",
+    region:"karnataka",
+    category:"mountain",
+    tag:"Mountain trails",
+    description:"Discover green mountain scenery, walking routes, and coffee country.",
+    eco:"Mountain escape",
+    lat:13.3161,
+    lng:75.7720,
+    image:"https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80",
+    icon:"fa-mountain"
+  },
+  {
+    id:"wayanad",
+    name:"Wayanad",
+    location:"Kerala, India",
+    region:"kerala",
+    category:"forest",
+    tag:"Forest retreat",
+    description:"Find forested hills, local culture, and nature-focused experiences.",
+    eco:"Forest escape",
+    lat:11.6854,
+    lng:76.1320,
+    image:"https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=900&q=80",
+    icon:"fa-tree"
+  },
+  {
+    id:"athirappilly",
+    name:"Athirappilly",
+    location:"Kerala, India",
+    region:"kerala",
+    category:"waterfall",
+    tag:"Waterfall",
+    description:"Visit a celebrated waterfall and learn to enjoy sensitive natural areas responsibly.",
+    eco:"Water & forest",
+    lat:10.2850,
+    lng:76.5690,
+    image:"https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=900&q=80",
+    icon:"fa-water"
+  },
+  {
+    id:"rishikesh",
+    name:"Rishikesh",
+    location:"Uttarakhand, India",
+    region:"uttarakhand",
+    category:"mountain",
+    tag:"River & mountains",
+    description:"Discover riverside scenery, walking experiences, and local spiritual traditions.",
+    eco:"River escape",
+    lat:30.0869,
+    lng:78.2676,
+    image:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+    icon:"fa-mountain-sun"
+  },
+  {
+    id:"jim-corbett",
+    name:"Jim Corbett",
+    location:"Uttarakhand, India",
+    region:"uttarakhand",
+    category:"wildlife",
+    tag:"Wildlife",
+    description:"Learn about wildlife conservation and follow park rules for responsible viewing.",
+    eco:"Wildlife awareness",
+    lat:29.5300,
+    lng:78.7747,
+    image:"https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=900&q=80",
+    icon:"fa-paw"
+  }
+];
+
+const $ = id => document.getElementById(id);
+
+let selectedDestination = null;
+let markerByName = new Map();
+let activeCategory = "all";
+let savedDestinations = new Set();
+
+$("year").textContent = new Date().getFullYear();
+$("markerCount").textContent = destinations.length;
+
+/* Load saved destinations safely */
+try {
+  savedDestinations = new Set(
+    JSON.parse(localStorage.getItem("ecotrailSavedDestinations") || "[]")
+  );
+} catch (error) {
+  savedDestinations = new Set();
+}
+
+/* Responsive navigation */
+$("menuToggle").addEventListener("click", () => {
+  const nav = $("navLinks");
+  const open = nav.classList.toggle("open");
+
+  $("menuToggle").setAttribute("aria-expanded", String(open));
+  $("menuToggle").innerHTML = open
+    ? '<i class="fa-solid fa-xmark"></i>'
+    : '<i class="fa-solid fa-bars"></i>';
+});
+
+/* Escape text before placing it inside map popup HTML */
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[character]);
+}
+
+/* Initialise map */
+const map = L.map("map", {
+  scrollWheelZoom:false
+}).setView([20.5, 78.5], 5);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom:19,
+  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+const markerIcon = L.divIcon({
+  className:"",
+  html:'<div style="width:33px;height:33px;display:grid;place-items:center;background:#c7e86c;color:#10251b;border:3px solid #f7f5eb;border-radius:50%;box-shadow:0 5px 14px #0005;font-size:13px"><i class="fa-solid fa-leaf"></i></div>',
+  iconSize:[33,33],
+  iconAnchor:[16,16],
+  popupAnchor:[0,-17]
+});
+
+/* Create map markers and dropdown options */
+destinations.forEach(destination => {
+  const option = new Option(
+    destination.name + " — " + destination.location,
+    destination.name
+  );
+  $("destinationSelect").add(option);
+
+  const marker = L.marker([destination.lat,destination.lng], {
+    icon:markerIcon,
+    title:destination.name,
+    alt:destination.name
+  }).addTo(map);
+
+  marker.bindPopup(`
+    <strong>${escapeHTML(destination.name)}</strong><br>
+    ${escapeHTML(destination.location)}<br>
+    <button class="map-popup-btn" type="button"
+      data-map-select="${escapeHTML(destination.name)}">
+      Select this destination
+    </button>
+  `);
+
+  marker.on("click", () => selectDestination(destination.name));
+  markerByName.set(destination.name,marker);
+});
+
+/* Fit the map to show all six locations */
+const bounds = L.latLngBounds(
+  destinations.map(destination => [destination.lat,destination.lng])
+);
+map.fitBounds(bounds.pad(0.15));
+
+/* Select a destination and update the selection panel */
+function selectDestination(name, openPopup = true) {
+  const destination = destinations.find(item => item.name === name);
+  if (!destination) return;
+
+  selectedDestination = destination;
+
+  $("destinationSelect").value = destination.name;
+  $("emptySelection").hidden = true;
+  $("selectedCard").hidden = false;
+
+  $("selectedName").textContent = destination.name;
+  $("selectedRegion").textContent = destination.location;
+  $("selectedDescription").textContent = destination.description;
+  $("selectedEco").textContent = destination.eco;
+  $("selectedTag").textContent = destination.tag;
+
+  $("selectedImage").src = destination.image;
+  $("selectedImage").alt = destination.name + " landscape";
+  $("selectedImage").onerror = () => {
+    $("selectedImage").style.display = "none";
+  };
+  $("selectedImage").onload = () => {
+    $("selectedImage").style.display = "block";
+  };
+
+  $("selectionHint").textContent = "Destination selected successfully.";
+  $("bookButton").disabled = false;
+  $("statusMessage").classList.remove("show");
+
+  const marker = markerByName.get(destination.name);
+  if (marker && openPopup) marker.openPopup();
+}
+
+/* Destination dropdown */
+$("destinationSelect").addEventListener("change", event => {
+  if (!event.target.value) {
+    selectedDestination = null;
+    $("selectedCard").hidden = true;
+    $("emptySelection").hidden = false;
+    $("selectionHint").textContent = "Choose a marker or destination.";
+    $("bookButton").disabled = true;
+    return;
+  }
+
+  selectDestination(event.target.value, false);
+
+  const destination = selectedDestination;
+  map.flyTo(
+    [destination.lat,destination.lng],
+    Math.max(map.getZoom(),8),
+    {duration:0.7}
+  );
+
+  const marker = markerByName.get(destination.name);
+  if (marker) marker.openPopup();
+});
+
+/* Map popup selection buttons */
+map.on("popupopen", event => {
+  const popupElement = event.popup.getElement();
+  if (!popupElement) return;
+
+  const button = popupElement.querySelector("[data-map-select]");
+  if (button) {
+    button.addEventListener("click", () => {
+      selectDestination(button.dataset.mapSelect, false);
+    });
+  }
+});
+
+/* Save a destination using the same key as destinations.html */
+function toggleSaved(destination) {
+  if (savedDestinations.has(destination.id)) {
+    savedDestinations.delete(destination.id);
+  } else {
+    savedDestinations.add(destination.id);
+  }
+
+  try {
+    localStorage.setItem(
+      "ecotrailSavedDestinations",
+      JSON.stringify([...savedDestinations])
+    );
+  } catch (error) {
+    console.warn("Could not save destinations in browser storage.", error);
+  }
+
+  renderDestinations();
+}
+
+/* Filter and sort destinations */
+function getFilteredDestinations() {
+  const query = $("searchInput").value.trim().toLowerCase();
+  const region = $("regionFilter").value;
+  const sort = $("sortFilter").value;
+
+  let list = destinations.filter(destination => {
+    const searchable = [
+      destination.name,
+      destination.location,
+      destination.tag,
+      destination.description,
+      destination.eco
+    ].join(" ").toLowerCase();
+
+    return searchable.includes(query) &&
+      (region === "all" || destination.region === region) &&
+      (activeCategory === "all" || destination.category === activeCategory);
+  });
+
+  if (sort === "name") {
+    list.sort((a,b) => a.name.localeCompare(b.name));
+  }
+
+  return list;
+}
+
+/* Render image cards */
+function renderDestinations() {
+  const list = getFilteredDestinations();
+  const grid = $("destinationGrid");
+
+  $("resultCount").textContent = list.length;
+  grid.replaceChildren();
+  $("noResults").style.display = list.length ? "none" : "block";
+
+  list.forEach((destination,index) => {
+    const card = document.createElement("article");
+    card.className = "destination-card";
+    card.style.animationDelay = Math.min(index * 0.07,0.35) + "s";
+
+    const imageWrap = document.createElement("div");
+    imageWrap.className = "destination-image";
+
+    const fallback = document.createElement("div");
+    fallback.className = "image-fallback";
+    fallback.innerHTML = '<i class="fa-solid ' + destination.icon + '"></i>';
+
+    const image = document.createElement("img");
+    image.src = destination.image;
+    image.alt = destination.name + " landscape";
+    image.loading = "lazy";
+    image.onerror = () => {
+      image.style.display = "none";
+      fallback.style.display = "grid";
+    };
+
+    fallback.style.display = "none";
+    imageWrap.append(image,fallback);
+
+    const tag = document.createElement("span");
+    tag.className = "card-tag";
+    tag.textContent = destination.tag;
+    imageWrap.appendChild(tag);
+
+    const saveButton = document.createElement("button");
+    saveButton.type = "button";
+    saveButton.className = "save-btn" +
+      (savedDestinations.has(destination.id) ? " saved" : "");
+    saveButton.innerHTML = savedDestinations.has(destination.id) ? "♥" : "♡";
+    saveButton.setAttribute(
+      "aria-label",
+      (savedDestinations.has(destination.id) ? "Remove " : "Save ") +
+      destination.name
+    );
+    saveButton.title = "Save destination";
+
+    saveButton.addEventListener("click", () => {
+      toggleSaved(destination);
+    });
+
+    imageWrap.appendChild(saveButton);
+
+    const content = document.createElement("div");
+    content.className = "destination-content";
+
+    const title = document.createElement("h3");
+    title.textContent = destination.name;
+
+    const location = document.createElement("div");
+    location.className = "destination-location";
+    location.innerHTML = '<i class="fa-solid fa-location-dot"></i>';
+    const locationText = document.createElement("span");
+    locationText.textContent = destination.location;
+    location.appendChild(locationText);
+
+    const description = document.createElement("p");
+    description.textContent = destination.description;
+
+    const details = document.createElement("div");
+    details.className = "destination-details";
+
+    const ecoTag = document.createElement("span");
+    ecoTag.className = "detail-tag";
+    ecoTag.innerHTML = '<i class="fa-solid fa-leaf"></i>';
+    ecoTag.appendChild(document.createTextNode(" " + destination.eco));
+
+    details.appendChild(ecoTag);
+
+    const actions = document.createElement("div");
+    actions.className = "card-actions";
+
+    const mapButton = document.createElement("button");
+    mapButton.type = "button";
+    mapButton.className = "btn btn-outline";
+    mapButton.innerHTML = '<i class="fa-solid fa-map-pin"></i> View on Map';
+
+    mapButton.addEventListener("click", () => {
+      selectDestination(destination.name, false);
+
+      map.flyTo(
+        [destination.lat,destination.lng],
+        9,
+        {duration:0.7}
+      );
+
+      const marker = markerByName.get(destination.name);
+      if (marker) marker.openPopup();
+
+      $("map").scrollIntoView({behavior:"smooth",block:"center"});
+    });
+
+    const chooseButton = document.createElement("button");
+    chooseButton.type = "button";
+    chooseButton.className = "btn btn-primary";
+    chooseButton.innerHTML = 'Select <i class="fa-solid fa-arrow-right"></i>';
+
+    chooseButton.addEventListener("click", () => {
+      selectDestination(destination.name, false);
+
+      map.flyTo(
+        [destination.lat,destination.lng],
+        9,
+        {duration:0.7}
+      );
+
+      const marker = markerByName.get(destination.name);
+      if (marker) marker.openPopup();
+
+      $("selectedCard").scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+    });
+
+    actions.append(mapButton,chooseButton);
+    content.append(title,location,description,details,actions);
+    card.append(imageWrap,content);
+    grid.appendChild(card);
+  });
+}
+
+/* Search and filter event handlers */
+$("searchInput").addEventListener("input",renderDestinations);
+$("regionFilter").addEventListener("change",renderDestinations);
+$("sortFilter").addEventListener("change",renderDestinations);
+
+document.querySelectorAll(".category-btn").forEach(button => {
+  button.addEventListener("click",() => {
+    document.querySelectorAll(".category-btn").forEach(item => {
+      item.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    activeCategory = button.dataset.category;
+    renderDestinations();
+  });
+});
+
+/* Continue to the existing booking page */
+$("bookButton").addEventListener("click", () => {
+  const message = $("statusMessage");
+
+  if (!selectedDestination) {
+    message.textContent = "Please select a destination first.";
+    message.classList.add("show");
+    return;
+  }
+
+  try {
+    /* Existing booking page reads this session key. */
+    sessionStorage.setItem(
+      "ecotrailSelectedDestination",
+      selectedDestination.name
+    );
+
+    sessionStorage.setItem(
+      "ecotrailSelectedDestinationDetails",
+      JSON.stringify({
+        id:selectedDestination.id,
+        name:selectedDestination.name,
+        region:selectedDestination.location,
+        latitude:selectedDestination.lat,
+        longitude:selectedDestination.lng,
+        image:selectedDestination.image,
+        source:"mapbooking"
+      })
+    );
+
+    /* Preserve the existing per-user destination key. */
+    const user = JSON.parse(
+      sessionStorage.getItem("ecotrailCurrentUser") || "null"
+    );
+
+    if (user && user.email) {
+      localStorage.setItem(
+        "ecotrailSelectedDestination_" +
+        user.email.trim().toLowerCase(),
+        selectedDestination.name
+      );
+    }
+
+    location.href = "book.html";
+  } catch (error) {
+    message.textContent =
+      "Unable to save your selection. Please enable browser storage and try again.";
+    message.classList.add("show");
+  }
+});
+
+/* Initial render */
+renderDestinations();
+</script>
+
+<footer class="ecotrail-footer">
+  <style>
+    .ecotrail-footer {
+      --footer-bg: #10251b;
+      --footer-surface: #173528;
+      --footer-lime: #c7e86c;
+      --footer-cream: #f4f3e8;
+      --footer-muted: #b8c8bd;
+
+      background: linear-gradient(
+        135deg,
+        #0b1c14 0%,
+        #10251b 55%,
+        #163526 100%
+      );
+      color: var(--footer-cream);
+      padding: 55px 7% 22px;
+      margin-top: 70px;
+      border-top: 1px solid rgba(199, 232, 108, 0.25);
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      box-sizing: border-box;
+    }
+
+    .ecotrail-footer *,
+    .ecotrail-footer *::before,
+    .ecotrail-footer *::after {
+      box-sizing: border-box;
+    }
+
+    .ecotrail-footer::before {
+      content: "";
+      position: absolute;
+      top: -130px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
+      background: rgba(199, 232, 108, 0.08);
+      filter: blur(75px);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .ecotrail-footer::after {
+      content: "";
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 280px;
+      height: 280px;
+      background: rgba(64, 128, 83, 0.12);
+      filter: blur(75px);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .ecotrail-footer .footer-container {
+      max-width: 1250px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .ecotrail-footer .footer-main {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+    }
+
+    .ecotrail-footer .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--footer-cream);
+      text-decoration: none;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      transition: transform 0.3s ease;
+    }
+
+    .ecotrail-footer .footer-logo:hover {
+      transform: translateY(-3px);
+    }
+
+    .ecotrail-footer .footer-logo-icon {
+      font-size: 29px;
+    }
+
+    .ecotrail-footer .footer-logo-name span {
+      color: var(--footer-lime);
+    }
+
+    .ecotrail-footer .footer-brand > p {
+      max-width: 330px;
+      color: var(--footer-muted);
+      line-height: 1.8;
+      font-size: 14px;
+      margin: 18px 0 22px;
+    }
+
+    .ecotrail-footer .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 13px;
+    }
+
+    .ecotrail-footer .footer-links h3 {
+      color: var(--footer-lime);
+      font-size: 15px;
+      margin: 5px 0 9px;
+      font-weight: 750;
+    }
+
+    .ecotrail-footer .footer-links a {
+      color: var(--footer-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .ecotrail-footer .footer-links a:hover {
+      color: var(--footer-lime);
+      transform: translateX(5px);
+    }
+
+    .ecotrail-footer .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(244, 243, 232, 0.13);
+    }
+
+    .ecotrail-footer .footer-bottom p {
+      color: var(--footer-muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .ecotrail-footer .footer-back-top {
+      display: inline-block;
+      color: var(--footer-lime);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .ecotrail-footer .footer-back-top:hover {
+      color: var(--footer-cream);
+      transform: translateY(-3px);
+    }
+
+    .ecotrail-footer a:focus-visible {
+      outline: 2px solid var(--footer-lime);
+      outline-offset: 5px;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .ecotrail-footer .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 35px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .ecotrail-footer {
+        padding: 42px 6% 20px;
+        margin-top: 45px;
+      }
+
+      .ecotrail-footer .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 30px 18px;
+      }
+
+      .ecotrail-footer .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+      .ecotrail-footer .footer-logo {
+        font-size: 24px;
+      }
+
+      .ecotrail-footer .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .ecotrail-footer .footer-links a {
+        font-size: 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ecotrail-footer *,
+      .ecotrail-footer *::before,
+      .ecotrail-footer *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <div class="footer-container">
+    <div class="footer-main">
+
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <span class="footer-logo-icon">🌿</span>
+          <span class="footer-logo-name">Eco<span>Trail</span></span>
+        </a>
+
+        <p>
+          Explore the world responsibly. Discover beautiful destinations,
+          plan meaningful journeys, and leave a lighter footprint.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h3>Explore</h3>
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="tripplanner.html">Trip Planner</a>
+        <a href="mapbooking.html">Map &amp; Booking</a>
+      </div>
+
+      <div class="footer-links">
+        <h3>Your EcoTrail</h3>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="savedplaces.html">Saved Places</a>
+        <a href="community.html">Community</a>
+        <a href="profile.html">My Profile</a>
+      </div>
+
+      <div class="footer-links">
+        <h3>About Us</h3>
+        <a href="about.html">About EcoTrail</a>
+        <a href="about.html#team">Our Team</a>
+        <a href="about.html#sustainability">Sustainability</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        © <span class="footer-year"></span> EcoTrail.
+        Made for a greener tomorrow.
+      </p>
+
+      <a href="#" class="footer-back-top">Back to top ↑</a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const footer = document.currentScript.closest(".ecotrail-footer");
+      if (!footer) return;
+
+      const year = footer.querySelector(".footer-year");
+      if (year) {
+        year.textContent = new Date().getFullYear();
+      }
+
+      const backToTop = footer.querySelector(".footer-back-top");
+      if (backToTop) {
+        backToTop.addEventListener("click", function (event) {
+          event.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        });
+      }
+    })();
+  </script>
+</footer>
+
+</body>
+</html>

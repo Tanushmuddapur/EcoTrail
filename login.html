@@ -1,0 +1,717 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10251b">
+<title>Sign In | EcoTrail</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root {
+  --forest: #10251b;
+  --lime: #c7e86c;
+  --cream: #f7f5eb;
+  --muted: #a5b4a8;
+  --border: rgba(255,255,255,.13);
+  --danger: #ff9d9d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--forest);
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input {
+  font: inherit;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* IMAGE PANEL */
+
+.visual-panel {
+  position: relative;
+  min-height: 100vh;
+  padding: 35px 7%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(8,24,16,.25), rgba(8,24,16,.88)),
+    url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=90") center/cover;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  font-family: 'Manrope', sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--lime);
+  color: var(--forest);
+  transform: rotate(-5deg);
+  transition: transform .3s;
+}
+
+.logo:hover .logo-icon {
+  transform: rotate(8deg) scale(1.08);
+}
+
+.logo-name span {
+  color: var(--lime);
+}
+
+.visual-copy {
+  max-width: 530px;
+  margin: 60px 0;
+  animation: rise .8s ease both;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--lime);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+.visual-copy h1 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(42px, 5vw, 72px);
+  letter-spacing: -3px;
+  line-height: 1.08;
+}
+
+.visual-copy h1 span {
+  color: var(--lime);
+}
+
+.visual-copy p {
+  color: #d2ddd3;
+  font-size: 14px;
+  line-height: 1.95;
+  max-width: 420px;
+  margin-top: 22px;
+}
+
+.quote-card {
+  max-width: 390px;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 20px;
+  background: rgba(255,255,255,.09);
+  backdrop-filter: blur(15px);
+  animation: float 5s ease-in-out infinite;
+}
+
+.quote-card .stars {
+  color: var(--lime);
+  letter-spacing: 3px;
+  font-size: 12px;
+}
+
+.quote-card p {
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 12px 0;
+}
+
+.quote-card small {
+  font-size: 11px;
+  color: #c0cec2;
+}
+
+/* LOGIN PANEL */
+
+.form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 7%;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 430px;
+  animation: rise .7s ease both;
+}
+
+.mobile-logo {
+  display: none;
+  margin-bottom: 35px;
+}
+
+.form-heading {
+  margin-bottom: 30px;
+}
+
+.form-heading h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(32px, 3.5vw, 43px);
+  letter-spacing: -1.7px;
+}
+
+.form-heading p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 12px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 9px;
+}
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 53px;
+  padding: 0 15px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: rgba(255,255,255,.045);
+  transition: border-color .25s, box-shadow .25s, background .25s;
+}
+
+.input-wrap:focus-within {
+  border-color: var(--lime);
+  background: rgba(199,232,108,.045);
+  box-shadow: 0 0 0 4px rgba(199,232,108,.08);
+}
+
+.input-wrap > i {
+  color: var(--lime);
+  width: 17px;
+  text-align: center;
+}
+
+.input-wrap input {
+  min-width: 0;
+  flex: 1;
+  height: 51px;
+  color: var(--cream);
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 13px;
+}
+
+.input-wrap input::placeholder {
+  color: #819184;
+}
+
+.toggle-password {
+  padding: 8px 0 8px 5px;
+  border: none;
+  background: transparent;
+  color: #9bac9e;
+  cursor: pointer;
+}
+
+.toggle-password:hover {
+  color: var(--lime);
+}
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 3px 0 23px;
+  font-size: 11px;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b4c1b6;
+}
+
+.remember input {
+  accent-color: var(--lime);
+}
+
+.form-options a,
+.signin-note a {
+  color: var(--lime);
+  font-weight: 700;
+}
+
+.form-options a:hover,
+.signin-note a:hover {
+  text-decoration: underline;
+}
+
+.submit-btn {
+  width: 100%;
+  min-height: 53px;
+  border: none;
+  border-radius: 13px;
+  background: var(--lime);
+  color: var(--forest);
+  font-weight: 800;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform .3s, box-shadow .3s, background .3s;
+}
+
+.submit-btn:hover {
+  background: #d9f68b;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,.23);
+}
+
+.submit-btn:disabled {
+  opacity: .7;
+  cursor: wait;
+  transform: none;
+}
+
+.message {
+  display: none;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.message.error {
+  display: block;
+  background: rgba(255,100,100,.09);
+  color: var(--danger);
+  border: 1px solid rgba(255,100,100,.2);
+}
+
+.message.success {
+  display: block;
+  background: rgba(199,232,108,.09);
+  color: var(--lime);
+  border: 1px solid rgba(199,232,108,.25);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 25px 0;
+  color: #829286;
+  font-size: 10px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--border);
+}
+
+.signin-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.back-home {
+  display: block;
+  text-align: center;
+  margin-top: 27px;
+  color: #91a194;
+  font-size: 11px;
+  transition: color .25s;
+}
+
+.back-home:hover {
+  color: var(--lime);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: .8fr 1.2fr;
+  }
+
+  .visual-panel {
+    padding: 28px 8%;
+  }
+
+  .visual-copy h1 {
+    font-size: 48px;
+  }
+
+  .form-panel {
+    padding: 35px 8%;
+  }
+}
+
+@media (max-width: 650px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-panel {
+    display: none;
+  }
+
+  .form-panel {
+    min-height: 100vh;
+    padding: 35px 7%;
+  }
+
+  .form-container {
+    margin: auto;
+  }
+
+  .mobile-logo {
+    display: inline-flex;
+  }
+
+  .form-heading h2 {
+    font-size: 35px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <aside class="visual-panel">
+
+    <a href="index.html" class="logo">
+      <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+      <span class="logo-name">Eco<span>Trail</span></span>
+    </a>
+
+    <div class="visual-copy">
+      <div class="eyebrow">
+        <i class="fa-solid fa-seedling"></i>
+        WELCOME BACK, EXPLORER
+      </div>
+
+      <h1>Your next<br>adventure is<br><span>calling.</span></h1>
+
+      <p>
+        Sign in to continue your EcoTrail journey.
+        Revisit your plans, find new places and make more room for nature.
+      </p>
+    </div>
+
+    <div class="quote-card">
+      <div class="stars">★★★★★</div>
+      <p>"Somewhere between the trees and the trail, you find a little more of yourself."</p>
+      <small><i class="fa-solid fa-leaf"></i> The EcoTrail philosophy</small>
+    </div>
+
+  </aside>
+
+  <main class="form-panel">
+    <div class="form-container">
+
+      <a href="index.html" class="logo mobile-logo">
+        <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+        <span class="logo-name">Eco<span>Trail</span></span>
+      </a>
+
+      <div class="form-heading">
+        <div class="eyebrow">Your journey continues</div>
+        <h2>Welcome back.</h2>
+        <p>Enter your account details to continue exploring with EcoTrail.</p>
+      </div>
+
+      <div id="formMessage" class="message" role="alert" aria-live="polite"></div>
+
+      <form id="loginForm" novalidate>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <div class="input-wrap">
+            <i class="fa-regular fa-envelope"></i>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="username"
+              maxlength="254"
+              required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock"></i>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              maxlength="128"
+              required>
+            <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="remember">
+            <input type="checkbox" id="rememberEmail">
+            Remember email
+          </label>
+
+          <a href="#" id="forgotPassword">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Sign in <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+      </form>
+
+      <div class="divider">NEW TO ECOTRAIL?</div>
+
+      <p class="signin-note">
+        Don't have an account?
+        <a href="createaccount.html">Create account</a>
+      </p>
+
+      <a href="index.html" class="back-home">
+        <i class="fa-solid fa-arrow-left"></i> Back to homepage
+      </a>
+
+    </div>
+  </main>
+
+</div>
+
+<script>
+const loginForm = document.getElementById('loginForm');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const formMessage = document.getElementById('formMessage');
+const submitBtn = document.getElementById('submitBtn');
+
+function showMessage(text, type) {
+  formMessage.textContent = text;
+  formMessage.className = 'message ' + type;
+}
+
+function normalizeEmail(email) {
+  return email.trim().toLowerCase();
+}
+
+function getRegisteredUsers() {
+  let raw;
+
+  try {
+    raw = localStorage.getItem('ecotrailUsers');
+  } catch (error) {
+    throw new Error('Browser storage is unavailable. Please enable it and try again.');
+  }
+
+  if (!raw) return [];
+
+  try {
+    const users = JSON.parse(raw);
+    return Array.isArray(users) ? users : [];
+  } catch (error) {
+    throw new Error('Saved account data could not be read. Please try again.');
+  }
+}
+
+/* PREFILL EMAIL AFTER REGISTRATION */
+const params = new URLSearchParams(window.location.search);
+const emailFromRegistration = params.get('email');
+
+if (emailFromRegistration) {
+  emailInput.value = emailFromRegistration;
+}
+
+if (params.get('registered') === '1') {
+  showMessage('Your account has been created. Please sign in with your new credentials.', 'success');
+}
+
+/* SHOW / HIDE PASSWORD */
+document.getElementById('togglePassword').addEventListener('click', function() {
+  const shouldShow = passwordInput.type === 'password';
+
+  passwordInput.type = shouldShow ? 'text' : 'password';
+
+  this.innerHTML = shouldShow
+    ? '<i class="fa-regular fa-eye-slash"></i>'
+    : '<i class="fa-regular fa-eye"></i>';
+
+  this.setAttribute('aria-label', shouldShow ? 'Hide password' : 'Show password');
+});
+
+/* REMEMBER EMAIL - EMAIL ONLY, NEVER PASSWORD */
+const rememberedEmail = localStorage.getItem('ecotrailRememberedEmail');
+
+if (rememberedEmail && !emailInput.value) {
+  emailInput.value = rememberedEmail;
+  document.getElementById('rememberEmail').checked = true;
+}
+
+/* LOGIN */
+loginForm.addEventListener('submit', event => {
+  event.preventDefault();
+  formMessage.className = 'message';
+
+  const email = normalizeEmail(emailInput.value);
+  const password = passwordInput.value;
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showMessage('Please enter a valid email address.', 'error');
+    return;
+  }
+
+  if (!password) {
+    showMessage('Please enter your password.', 'error');
+    return;
+  }
+
+  let users;
+
+  try {
+    users = getRegisteredUsers();
+  } catch (error) {
+    showMessage(error.message, 'error');
+    return;
+  }
+
+  const user = users.find(item =>
+    item &&
+    typeof item.email === 'string' &&
+    normalizeEmail(item.email) === email &&
+    typeof item.password === 'string' &&
+    item.password === password
+  );
+
+  if (!user) {
+    showMessage(
+      'Incorrect email or password. If you are new, create an account first.',
+      'error'
+    );
+    return;
+  }
+
+  try {
+    if (document.getElementById('rememberEmail').checked) {
+      localStorage.setItem('ecotrailRememberedEmail', email);
+    } else {
+      localStorage.removeItem('ecotrailRememberedEmail');
+    }
+
+    /*
+      Store the active demo session.
+      The dashboard can use this to display the user's name.
+    */
+    sessionStorage.setItem('ecotrailCurrentUser', JSON.stringify({
+      id: user.id || '',
+      name: user.name || 'Explorer',
+      email: user.email
+    }));
+
+  } catch (error) {
+    showMessage('Could not start your session. Please check browser storage settings.', 'error');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
+
+  showMessage('Login successful! Taking you to your dashboard...', 'success');
+
+  setTimeout(() => {
+    window.location.href = 'dashboard.html';
+  }, 700);
+});
+
+/* DEMO PASSWORD RECOVERY MESSAGE */
+document.getElementById('forgotPassword').addEventListener('click', event => {
+  event.preventDefault();
+
+  showMessage(
+    'Password recovery is not connected yet. For this demo, create a new account with a different email if you cannot remember your password.',
+    'error'
+  );
+});
+</script>
+
+</body>
+</html>

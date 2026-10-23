@@ -1,0 +1,812 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10251b">
+<title>Create Account | EcoTrail</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root {
+  --forest: #10251b;
+  --forest-light: #1b3828;
+  --forest-card: #203d2c;
+  --lime: #c7e86c;
+  --cream: #f7f5eb;
+  --muted: #a5b4a8;
+  --border: rgba(255,255,255,.13);
+  --danger: #ff9d9d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--forest);
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input {
+  font: inherit;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* LEFT VISUAL PANEL */
+
+.visual-panel {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 35px 7%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    linear-gradient(180deg, rgba(9,26,17,.35), rgba(9,26,17,.86)),
+    url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=90") center/cover;
+}
+
+.visual-panel::after {
+  content: "";
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  border: 1px solid rgba(199,232,108,.25);
+  right: -180px;
+  bottom: 8%;
+  box-shadow:
+    0 0 0 35px rgba(199,232,108,.035),
+    0 0 0 75px rgba(199,232,108,.025);
+  pointer-events: none;
+}
+
+.logo {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  font-family: 'Manrope', sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--lime);
+  color: var(--forest);
+  transform: rotate(-5deg);
+  transition: transform .3s;
+}
+
+.logo:hover .logo-icon {
+  transform: rotate(8deg) scale(1.08);
+}
+
+.logo-name span {
+  color: var(--lime);
+}
+
+.visual-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 540px;
+  margin: 70px 0;
+  animation: slideUp .8s ease both;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--lime);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+
+.visual-copy h1 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(42px, 5vw, 72px);
+  letter-spacing: -3px;
+  line-height: 1.08;
+}
+
+.visual-copy h1 span {
+  color: var(--lime);
+}
+
+.visual-copy p {
+  color: #d2ddd3;
+  font-size: 14px;
+  line-height: 1.95;
+  margin-top: 23px;
+  max-width: 430px;
+}
+
+.quote-card {
+  position: relative;
+  z-index: 1;
+  max-width: 390px;
+  padding: 22px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.09);
+  backdrop-filter: blur(15px);
+  animation: float 5s ease-in-out infinite;
+}
+
+.quote-card .stars {
+  color: var(--lime);
+  letter-spacing: 3px;
+  font-size: 12px;
+}
+
+.quote-card p {
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 12px 0;
+}
+
+.quote-card small {
+  font-size: 11px;
+  color: #c0cec2;
+}
+
+/* RIGHT FORM PANEL */
+
+.form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 7%;
+  position: relative;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 430px;
+  animation: slideUp .7s ease both;
+}
+
+.mobile-logo {
+  display: none;
+  margin-bottom: 35px;
+}
+
+.form-heading {
+  margin-bottom: 30px;
+}
+
+.form-heading .eyebrow {
+  margin-bottom: 15px;
+}
+
+.form-heading h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(30px, 3.5vw, 42px);
+  letter-spacing: -1.7px;
+}
+
+.form-heading p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 12px;
+}
+
+.field {
+  margin-bottom: 19px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 9px;
+  color: #e5ebe4;
+}
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 15px;
+  min-height: 52px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 13px;
+  background: rgba(255,255,255,.045);
+  transition: border-color .25s, box-shadow .25s, background .25s;
+}
+
+.input-wrap:focus-within {
+  border-color: var(--lime);
+  background: rgba(199,232,108,.045);
+  box-shadow: 0 0 0 4px rgba(199,232,108,.08);
+}
+
+.input-wrap > i {
+  color: var(--lime);
+  font-size: 15px;
+  width: 17px;
+  text-align: center;
+}
+
+.input-wrap input {
+  min-width: 0;
+  flex: 1;
+  height: 50px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--cream);
+  font-size: 13px;
+}
+
+.input-wrap input::placeholder {
+  color: #819184;
+}
+
+.toggle-password {
+  background: transparent;
+  border: none;
+  color: #9bac9e;
+  padding: 8px 0 8px 5px;
+  transition: color .2s;
+}
+
+.toggle-password:hover {
+  color: var(--lime);
+}
+
+.field-hint {
+  font-size: 10px;
+  color: #8fa092;
+  margin-top: 7px;
+  line-height: 1.6;
+}
+
+.terms-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 7px 0 22px;
+  font-size: 11px;
+  color: #b4c1b6;
+  line-height: 1.8;
+}
+
+.terms-row input {
+  margin-top: 4px;
+  accent-color: var(--lime);
+  flex-shrink: 0;
+}
+
+.terms-row a {
+  color: var(--lime);
+}
+
+.terms-row a:hover {
+  text-decoration: underline;
+}
+
+.submit-btn {
+  width: 100%;
+  min-height: 52px;
+  border: none;
+  border-radius: 13px;
+  background: var(--lime);
+  color: var(--forest);
+  font-weight: 800;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform .3s, box-shadow .3s, background .3s;
+}
+
+.submit-btn:hover {
+  background: #d9f68b;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,.23);
+}
+
+.submit-btn:disabled {
+  opacity: .7;
+  cursor: wait;
+  transform: none;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 24px 0;
+  color: #829286;
+  font-size: 10px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--border);
+}
+
+.signin-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.signin-note a {
+  color: var(--lime);
+  font-weight: 700;
+}
+
+.signin-note a:hover {
+  text-decoration: underline;
+}
+
+.back-home {
+  display: block;
+  text-align: center;
+  margin-top: 27px;
+  color: #91a194;
+  font-size: 11px;
+  transition: color .25s;
+}
+
+.back-home:hover {
+  color: var(--lime);
+}
+
+.message {
+  display: none;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.message.error {
+  display: block;
+  background: rgba(255,100,100,.09);
+  color: var(--danger);
+  border: 1px solid rgba(255,100,100,.2);
+}
+
+.message.success {
+  display: block;
+  background: rgba(199,232,108,.09);
+  color: var(--lime);
+  border: 1px solid rgba(199,232,108,.25);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: .8fr 1.2fr;
+  }
+
+  .visual-panel {
+    padding: 28px 8%;
+  }
+
+  .visual-copy h1 {
+    font-size: 48px;
+  }
+
+  .form-panel {
+    padding: 35px 8%;
+  }
+}
+
+@media (max-width: 650px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-panel {
+    display: none;
+  }
+
+  .form-panel {
+    min-height: 100vh;
+    padding: 35px 7%;
+    align-items: flex-start;
+  }
+
+  .form-container {
+    margin: auto;
+  }
+
+  .mobile-logo {
+    display: inline-flex;
+  }
+
+  .form-heading h2 {
+    font-size: 35px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- LEFT IMAGE SECTION -->
+  <aside class="visual-panel">
+
+    <a href="index.html" class="logo">
+      <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+      <span class="logo-name">Eco<span>Trail</span></span>
+    </a>
+
+    <div class="visual-copy">
+      <div class="eyebrow">
+        <i class="fa-solid fa-seedling"></i>
+        YOUR NEXT CHAPTER STARTS HERE
+      </div>
+
+      <h1>Step outside.<br>Find your <span>wild.</span></h1>
+
+      <p>
+        Discover hidden trails, explore beautiful destinations and
+        make memories that bring you closer to nature.
+        Your next adventure begins with one small step.
+      </p>
+    </div>
+
+    <div class="quote-card">
+      <div class="stars">★★★★★</div>
+      <p>"The best journeys take us away from the noise and closer to what matters."</p>
+      <small><i class="fa-solid fa-leaf"></i> The EcoTrail philosophy</small>
+    </div>
+
+  </aside>
+
+  <!-- CREATE ACCOUNT FORM -->
+  <main class="form-panel">
+    <div class="form-container">
+
+      <a href="index.html" class="logo mobile-logo">
+        <span class="logo-icon"><i class="fa-solid fa-leaf"></i></span>
+        <span class="logo-name">Eco<span>Trail</span></span>
+      </a>
+
+      <div class="form-heading">
+        <div class="eyebrow">Become an explorer</div>
+        <h2>Create your account.</h2>
+        <p>Join EcoTrail and start planning your next nature escape.</p>
+      </div>
+
+      <div id="formMessage" class="message" role="alert" aria-live="polite"></div>
+
+      <form id="createAccountForm" novalidate>
+
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <div class="input-wrap">
+            <i class="fa-regular fa-user"></i>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              maxlength="80"
+              required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <div class="input-wrap">
+            <i class="fa-regular fa-envelope"></i>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              maxlength="254"
+              required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Create password</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock"></i>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="At least 8 characters"
+              autocomplete="new-password"
+              minlength="8"
+              maxlength="128"
+              required>
+            <button type="button" class="toggle-password" data-target="password" aria-label="Show password">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <p class="field-hint">Use at least 8 characters.</p>
+        </div>
+
+        <div class="field">
+          <label for="confirmPassword">Confirm password</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-shield-halved"></i>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Enter your password again"
+              autocomplete="new-password"
+              maxlength="128"
+              required>
+            <button type="button" class="toggle-password" data-target="confirmPassword" aria-label="Show password">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <label class="terms-row">
+          <input type="checkbox" id="terms" required>
+          <span>
+            I agree to use EcoTrail responsibly and accept the
+            <a href="#termsInfo" id="termsLink">terms of use</a>.
+          </span>
+        </label>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Create account <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+      </form>
+
+      <div class="divider">ALREADY PART OF THE JOURNEY?</div>
+
+      <p class="signin-note">
+        Already have an account?
+        <a href="login.html">Sign in</a>
+      </p>
+
+      <a href="index.html" class="back-home">
+        <i class="fa-solid fa-arrow-left"></i> Back to homepage
+      </a>
+
+    </div>
+  </main>
+
+</div>
+
+<script>
+const form = document.getElementById('createAccountForm');
+const message = document.getElementById('formMessage');
+const submitBtn = document.getElementById('submitBtn');
+
+/*
+  DEMO STORAGE:
+  Registration and login must use the same storage key:
+  ecotrailUsers
+
+  The matching login page should check this same key.
+*/
+
+function showMessage(text, type) {
+  message.textContent = text;
+  message.className = 'message ' + type;
+}
+
+function normalizeEmail(email) {
+  return email.trim().toLowerCase();
+}
+
+function getRegisteredUsers() {
+  try {
+    const raw = localStorage.getItem('ecotrailUsers');
+
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw);
+
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    throw new Error(
+      'Account storage is unavailable or contains invalid data. Please enable browser storage and try again.'
+    );
+  }
+}
+
+/* SHOW / HIDE PASSWORD */
+document.querySelectorAll('.toggle-password').forEach(button => {
+  button.addEventListener('click', () => {
+    const input = document.getElementById(button.dataset.target);
+    const showPassword = input.type === 'password';
+
+    input.type = showPassword ? 'text' : 'password';
+
+    button.innerHTML = showPassword
+      ? '<i class="fa-regular fa-eye-slash"></i>'
+      : '<i class="fa-regular fa-eye"></i>';
+
+    button.setAttribute(
+      'aria-label',
+      showPassword ? 'Hide password' : 'Show password'
+    );
+  });
+});
+
+/* TERMS INFORMATION */
+document.getElementById('termsLink').addEventListener('click', event => {
+  event.preventDefault();
+
+  showMessage(
+    'Demo terms: provide accurate account details, keep your password private, and explore nature responsibly. This page does not connect to a production account service.',
+    'success'
+  );
+});
+
+/* CREATE ACCOUNT */
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  message.className = 'message';
+
+  const fullName = document.getElementById('fullName').value.trim();
+  const email = normalizeEmail(document.getElementById('email').value);
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const termsAccepted = document.getElementById('terms').checked;
+
+  if (fullName.length < 2) {
+    showMessage('Please enter your full name.', 'error');
+    return;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showMessage('Please enter a valid email address.', 'error');
+    return;
+  }
+
+  if (password.length < 8) {
+    showMessage('Your password must contain at least 8 characters.', 'error');
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    showMessage('The passwords do not match. Please try again.', 'error');
+    return;
+  }
+
+  if (!termsAccepted) {
+    showMessage('Please accept the terms before creating your account.', 'error');
+    return;
+  }
+
+  let users;
+
+  try {
+    users = getRegisteredUsers();
+  } catch (error) {
+    showMessage(error.message, 'error');
+    return;
+  }
+
+  const existingUser = users.some(user =>
+    user &&
+    typeof user.email === 'string' &&
+    normalizeEmail(user.email) === email
+  );
+
+  if (existingUser) {
+    showMessage(
+      'An account with this email already exists. Please sign in instead.',
+      'error'
+    );
+    return;
+  }
+
+  /*
+    Browser-only demonstration.
+    Plaintext passwords in localStorage are NOT secure for real accounts.
+    Replace this with server-side registration before production use.
+  */
+
+  const newUser = {
+    id: 'user_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    name: fullName,
+    email: email,
+    password: password,
+    createdAt: new Date().toISOString()
+  };
+
+  users.push(newUser);
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating account...';
+
+  try {
+    localStorage.setItem('ecotrailUsers', JSON.stringify(users));
+
+    /*
+      Go to the login page only after saving succeeds.
+      The email query parameter can prefill the login form.
+    */
+    showMessage('Account created successfully! Redirecting you to sign in...', 'success');
+
+    setTimeout(() => {
+      window.location.href = 'login.html?email=' + encodeURIComponent(email) + '&registered=1';
+    }, 1000);
+
+  } catch (error) {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'Create account <i class="fa-solid fa-arrow-right"></i>';
+
+    showMessage(
+      'Could not save your account. Check browser storage settings and try again.',
+      'error'
+    );
+  }
+});
+</script>
+
+</body>
+</html>
